@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_view_broder"
+    android:padding="1dip"
+    android:orientation="vertical" >
+    
+    <include 
+        android:id="@id/choice_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/subject_name_layout"/>
+    
+    <RadioGroup
+        android:id="@+id/choice_sigle_body"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:background="@color/white">
+
+        <RadioButton
+	        android:id="@+id/choice_sigle_a"
+	        style="@style/style_subject_item"/>
+
+        <RadioButton
+	        android:id="@+id/choice_sigle_b"
+	        style="@style/style_subject_item"/>
+        
+        <RadioButton
+	        android:id="@+id/choice_sigle_c"
+	        style="@style/style_subject_item"/>
+        
+        <RadioButton
+	        android:id="@+id/choice_sigle_d"
+	        style="@style/style_subject_item"/>
+    </RadioGroup>
+
+</LinearLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_view_broder"
+        android:padding="1dip"
+        android:orientation="vertical"
+        android:gravity="center">
+        <TextView
+	        android:id="@+id/choice_title_name"
+	        android:layout_width="fill_parent"
+	        android:minHeight="@dimen/layout_title_heigth"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/black"
+	        android:textSize="@dimen/subject_title_text_size"
+	        android:background="@color/wheat"
+	        android:gravity="left|center"/>
+        
+         <EditText
+	        android:id="@+id/answer_body"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:minHeight="@dimen/layout_title_heigth"
+	        android:textSize="@dimen/subject_title_text_size"
+	        android:background="@drawable/input_text_bg"
+	        android:gravity="left|center"/>
+</LinearLayout>

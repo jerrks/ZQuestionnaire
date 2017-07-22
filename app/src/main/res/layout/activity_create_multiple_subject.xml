@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_layout_theme"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/title_layout" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dip" >
+
+        <EditText
+            android:id="@+id/subject_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_text_bg"
+            android:ems="10"
+            android:hint="@string/hit_subject_name"
+            android:maxLength="80"
+            android:minHeight="40dip"
+            android:layout_margin="3dip"
+            android:textSize="12dip" >
+            <requestFocus />
+        </EditText>
+
+        <include
+            android:id="@+id/subject_value_1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/paper_layout_3" />
+
+        <include
+            android:id="@+id/subject_value_2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/paper_layout_3" />
+
+        <include
+            android:id="@+id/subject_value_3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/paper_layout_3" />
+
+        <include
+            android:id="@+id/subject_value_4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/paper_layout_3" />
+
+        <include
+            android:id="@+id/subject_value_5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/paper_layout_3" />
+
+        <include
+            android:id="@+id/subject_value_6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/paper_layout_3" />
+
+        <include
+            android:id="@+id/subject_value_7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/paper_layout_3" />
+    </LinearLayout>
+
+</LinearLayout>

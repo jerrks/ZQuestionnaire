@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="layout_title_width">60dip</dimen>
+    <dimen name="layout_title_heigth">45dip</dimen>
+    <dimen name="paper_add_subject_heigth">40dip</dimen>
+    <dimen name="title_text_size">18dip</dimen>
+    <dimen name="header_text_size">14dip</dimen>
+    <dimen name="subject_title_text_size">16dip</dimen>
+    <dimen name="subject_body_text_size">14dip</dimen>
+    <dimen name="padding_medium">6dip</dimen>
+    <dimen name="padding_max">10dip</dimen>
+    <dimen name="padding_min">3dip</dimen>
+    <dimen name="margin_medium">6dip</dimen>
+    <dimen name="margin_max">10dip</dimen>
+    <dimen name="margin_min">3dip</dimen>
+    <dimen name="text_max">16sp</dimen>
+    <dimen name="text_medium">14sp</dimen>
+    <dimen name="text_min">12sp</dimen>
+    <dimen name="tab_item_heigth">35dip</dimen>
+</resources>

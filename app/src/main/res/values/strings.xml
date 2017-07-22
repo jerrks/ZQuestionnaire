@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    
+    
+    <string name="app_name">E快调查</string>
+    <string name="tip_splash">欢迎使用 E快调查Pad...</string>
+    
+    <string name="tab_paper_create">创 建</string>
+    <string name="tab_paper_doing">调 查</string>
+    <string name="tab_paper_statistic">统 计</string>
+    <string name="tab_paper_about">关 于</string>
+    <string name="paper_add_subject">添加新题</string>
+    <string name="create_paper">创建问卷</string>
+    <string name="title_create_paper">创建调查问卷</string>
+    <string name="statistic_paper">问卷统计</string>
+    <string name="survey_paper">问卷调查</string>
+    <string name="complete">完成</string>
+    <string name="edit">编辑</string>
+    <string name="back">返回</string>
+    <string name="save">保存</string>
+    <string name="create">新建</string>
+    <string name="more">更多</string>
+    
+    <string name="cancel">取 消</string>
+    <string name="ok">确 定</string>
+    <string name="paper_author">作者: %s</string>
+    <string name="paper_create_time">创建时间: %s</string>
+    <string name="paper_description">简介: %s</string>
+	<string name="paper_marks">备注: %s</string>
+    <string name="dilog_create_paper_title">创建问卷</string>
+
+    <string name="subject_label_name">(%1$d) %2$s</string>
+    <string name="subject_value_fromat">%1$s. %2$s</string>
+    <string name="key_tag">tag-key</string>
+    <string name="key_tag_index">tag-key-index</string>
+    <string name="tip_error_information_uncomplete">信息不完整，请完善信息...</string>
+	<string name="tip_app">提  示</string>
+	<string name="tip_exit_application">你确定要退出E快调查吗？</string>
+	<string name="tip_choose_subject_type">请选择题类型</string>
+	<string name="tip_delete_paper_failed_retry">删除试卷 %s 失败，请重试</string>
+	<string name="tip_save_subject_failed_retry">保存失败，请重试...</string>
+	<string name="tip_delete_subject_failed_retry">删除第 %d 题失败，请重试...</string>
+	<string name="tip_delete_paper">您确定要删除 %s 问卷？</string>
+	<string name="tip_save_subject">题%s没有保存，是否保存？</string>
+	
+	
+	<string name="tip_complete_personal_information">请您完善个人信息</string>
+	<string name="tip_data_is_invailde">数据错误</string>
+	
+	<string name="message_delete">您确定要删除第 %d 题？</string>
+	<string name="message_paper_is_not_create_complete_and_saveable">问卷没有创建完成，是否保存？</string>
+	<string name="dilog_create_subject_title">新建问题</string>
+	<string name="hit_subject_name">请您输入题目，不超过80个字</string>
+	<string name="hit_subject_value">请您输入备选答案，不超过60个字</string>
+	
+	<string name="tip_done_paper_thinks">非常感谢您参与本次调查，谢谢</string>
+	<string name="tip_personal_information">填写个人信息</string>
+	<string name="label_gender">性别: %s</string>
+    <string name="label_age">年龄: %d</string>
+	<string name="label_nation">民族: %s</string>
+    <string name="label_profession">职业: %s</string>
+	<string name="label_place">居住地: %s</string>
+    <string name="label_contant">联系方式: %s</string>
+	
+	<string name="gender">性别</string>
+    <string name="age">年龄</string>
+	<string name="nation">民族</string>
+    <string name="profession">职业</string>
+	<string name="place">居住地</string>
+    <string name="contant">联系方式</string>
+    
+    <string name="hit_age">请输入您的年龄</string>
+	<string name="hit_nation">请输入您的民族</string>
+    <string name="hit_profession">请输入您的职业</string>
+	<string name="hit_place">请输入您的居住地</string>
+    <string name="hit_contant">请输入联系方式</string>
+    <string name="q_1">1. 你喜欢什么体育运动？</string>
+    <string name="q_2">2. 你的家乡是那个方位？</string>
+    <string name="statistic_detail">试题统计</string>
+    <string name="sort">排序</string>
+    <string name="tip_thanks">您的选择，将为我们开发软件起到关键的引导作用，再次感谢您的配合与帮助！</string>
+    <string name="version_info">版本：%s</string>
+    <string name="publisher_info">中央民族大学613工作室</string>
+    <string name="about_app">关于E快调查</string>
+    <string name="check_update">检查更新</string>
+    <string name="about">关于</string>
+    <string name="intr_app">应用介绍</string>
+    <string name="current_ver">当前版本：%s</string>
+    <string name="usage_instruction">\t\tE快调查客户端软件，主要针对少数民族地区经济、文化发展状况而设计的电子调查问卷。亦适用于其他形式内容问卷、考试试题制作等，集创建 >> 调查 >> 统计结果于一体。\n\n适用于不同类型的题型：\n\n单项选择题\n多项选择题\n多项排序题\n问答题</string>
+    <string name="app_instruction">本软件基于android系统开发，适用于android系统终端设备(手机，Pad平板 )，实现电子问卷调查，欢迎下载使用.\n\n\t如果您对我们的产品有任何一件和看法请联系 QQ： 330141633。</string>
+</resources>

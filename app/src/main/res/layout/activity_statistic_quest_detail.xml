@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_layout_theme"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/title_layout" />
+
+    <LinearLayout
+        style="@style/style_layout_theme"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_medium" >
+
+        <TextView
+            android:id="@+id/topic"
+            style="@style/style_subject_title_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dip"
+            android:background="@drawable/line_blue" />
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:id="@+id/choice_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/result_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/detail_singlechoice"
+                    layout="@layout/adapter_item_view_choice"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/detail_multichoice"
+                    layout="@layout/adapter_item_view_choice_multiple"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/result_info"
+                    style="@style/style_subject_answer_text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+
+                <!--
+                <LinearLayout
+                    android:id="@+id/result_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+                </LinearLayout>
+                -->
+            </LinearLayout>
+        </ScrollView>
+
+        <ListView
+            android:id="@+id/answers_list"
+            style="@style/style_listview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</LinearLayout>

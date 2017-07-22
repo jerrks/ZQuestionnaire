@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+   
+    <solid android:color="#ffffffff" /><!-- 背景的填充颜色 -->   
+    <stroke
+        android:width="1dip"
+        android:color="#d5dade" />
+    <corners android:radius="1dp" /><!-- 边角圆弧的半径 -->   
+    <padding    
+        android:left="1dip"  
+        android:right="1dip"
+        android:bottom="1dip"  /><!-- 四周留出来的空白 -->   
+</shape>

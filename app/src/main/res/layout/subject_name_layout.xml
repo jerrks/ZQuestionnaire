@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/wheat"
+    	android:padding="1dip"
+        android:gravity="center">
+        <TextView
+	        android:id="@+id/choice_title_name"
+	        android:layout_width="fill_parent"
+	        android:minHeight="@dimen/layout_title_heigth"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/title_text_color"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_centerVertical="true"
+	        android:layout_toLeftOf="@+id/choice_edit_layout"
+	        android:textSize="@dimen/subject_title_text_size"
+	        android:gravity="left|center"/>
+        
+		<LinearLayout 
+		    android:id="@id/choice_edit_layout"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentRight="true"
+		    android:layout_alignParentTop="true"
+		    android:orientation="horizontal"
+		    android:visibility="visible">
+		    <ImageView
+	            android:id="@+id/choice_edit"
+	            android:layout_width="wrap_content"
+	            android:layout_height="@dimen/layout_title_heigth"
+	            android:src="@android:drawable/ic_menu_edit"/>
+	        <ImageView
+	            android:id="@+id/choice_delete"
+	            android:layout_width="wrap_content"
+	            android:layout_height="@dimen/layout_title_heigth"
+	            android:src="@android:drawable/ic_menu_delete" />
+		</LinearLayout>
+		
+		<TextView
+	        android:id="@+id/choice_title_value"
+	        android:layout_width="wrap_content"
+	        android:layout_height="@dimen/layout_title_heigth"
+	        android:textColor="@color/title_text_color"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_centerVertical="true"
+	        android:layout_marginRight="3dip"
+	        android:textSize="12dip"
+	        android:gravity="right|center"
+	        android:visibility="gone"/>
+    </RelativeLayout>

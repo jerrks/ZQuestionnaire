@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_layout_theme"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="2dip" 
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/style_layout_item"
+            android:layout_height="30dip"
+            android:orientation="horizontal" >
+           	<TextView
+                    android:id="@+id/gender"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dip"
+                    android:gravity="left|center_vertical"
+                    android:layout_weight="1"
+                    android:textSize="14dip" 
+                    android:text="@string/gender"/>
+
+            <TextView
+                android:id="@+id/age"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dip"
+                    android:gravity="left|center_vertical"
+	                android:layout_weight="1"
+                    android:textSize="14dip" 
+                    android:text="@string/age"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_layout_item"
+            android:layout_height="30dip"
+            android:orientation="horizontal" >
+           	<TextView
+                    android:id="@+id/nation"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dip"
+                    android:gravity="left|center_vertical"
+                    android:layout_weight="1"
+                    android:textSize="14dip" 
+                    android:text="@string/nation"/>>
+
+            <TextView
+                android:id="@+id/profession"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dip"
+                    android:gravity="left|center_vertical"
+	                android:layout_weight="1"
+                    android:textSize="14dip" 
+                    android:text="@string/profession"/>
+        </LinearLayout>
+        
+        <LinearLayout
+            style="@style/style_layout_item"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/place"
+                android:layout_width="fill_parent"
+                android:layout_height="30dip"
+                android:gravity="left|center_vertical"
+                android:text="@string/place"
+                android:textSize="14dip" />
+            
+            <TextView
+                android:id="@+id/contant"
+                android:layout_width="fill_parent"
+                android:layout_height="30dip"
+                android:gravity="left|center_vertical"
+                android:text="@string/contant"
+                android:textSize="14dip" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

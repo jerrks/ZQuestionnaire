@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@color/gray"
+    android:orientation="vertical" >
+
+    <RadioGroup
+        android:id="@+id/group_tab"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/bt_paper_create"
+            style="@style/style_tab_radio"
+            android:drawableTop="@drawable/bottom_bar_create"
+            android:text="@string/tab_paper_create" />
+
+        <RadioButton
+            android:id="@+id/bt_paper_doing"
+            style="@style/style_tab_radio"
+            android:drawableTop="@drawable/bottom_bar_survey"
+            android:text="@string/tab_paper_doing" />
+
+        <RadioButton
+            android:id="@+id/bt_paper_statistic"
+            style="@style/style_tab_radio"
+            android:drawableTop="@drawable/bottom_bar_statistic"
+            android:text="@string/tab_paper_statistic"/>
+
+        <RadioButton
+            android:id="@+id/bt_paper_about"
+            style="@style/style_tab_radio"
+            android:drawableTop="@drawable/bottom_bar_more"
+            android:text="@string/more" />
+    </RadioGroup>
+
+</LinearLayout>

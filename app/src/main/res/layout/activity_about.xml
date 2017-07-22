@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_layout_theme"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/head"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/title_layout" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView
+            style="@style/style_text_normal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dip"
+            android:padding="10dip"
+            android:layout_below="@id/head"
+            android:layout_marginTop="@dimen/margin_max"
+            android:text="@string/app_instruction"
+            android:layout_centerInParent="true" />
+
+        <LinearLayout
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_min"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/version_info"
+                style="@style/style_text_normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:background="@drawable/line_blue" />
+
+            <TextView
+                style="@style/style_text_normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:gravity="center"
+                android:text="@string/publisher_info" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/style_text_normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/bottom"
+            android:layout_marginBottom="@dimen/margin_max"
+            android:gravity="center"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</LinearLayout>

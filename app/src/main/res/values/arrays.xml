@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dilog_create_paper">
+        <item >名称:</item>
+        <item >简介:</item>
+        <item >作者:</item>
+        <item >备注:</item>
+    </string-array>
+    
+    <string-array name="dilog_create_paper_hit">
+        <item >请您输入问卷名称,不超过15个字</item>
+        <item >请您输入问卷简介,不超过200个字</item>
+        <item >请您输入作者名称,不超过15个字</item>
+        <item >请您输入问卷备注,不超过150个字</item>
+    </string-array>
+    
+    <string-array name="subject_label">
+        <item >A </item>
+        <item >B </item>
+       	<item >C </item>
+        <item >D </item>
+        <item >E </item>
+        <item >F </item>
+        <item >G </item>
+    </string-array>
+    
+    <string-array name="answers">
+        <item >A</item>
+        <item >B</item>
+       	<item >C</item>
+        <item >D</item>
+        <item >E</item>
+        <item >F</item>
+        <item >G</item>
+    </string-array>
+    
+    <string-array name="dilog_subject_type">
+        <item >单选题</item>
+        <item >多选题</item>
+        <item >排序题</item>
+        <item >问答题</item>
+    </string-array>
+    <string-array name="gender">
+        <item >男</item>
+        <item >女</item>
+    </string-array>
+    
+    <string-array name="stat_sort_label">
+        <item >选项 </item>
+        <item > 第1</item>
+       	<item > 第2</item>
+        <item > 第3</item>
+        <item > 第4</item>
+        <item > 第5</item>
+        <item > 第6</item>
+        <item > 第7</item>
+    </string-array>
+</resources>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_layout_theme"
+    android:background="@color/wheat"
+    android:layout_height="wrap_content"
+    android:minWidth="300dip"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="1dp" 
+        android:background="@drawable/item_view_broder"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="40dip"
+            android:layout_marginBottom="5dip"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="16dip" 
+            android:text="@string/tip_personal_information"
+            android:background="@drawable/ic_title_bg"/>
+        
+        <LinearLayout
+            style="@style/style_layout_item"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="30dip"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gender"
+                    android:textSize="14dip" />
+
+                <Spinner
+                    android:id="@+id/spinner_gender"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="30dip"
+                    android:layout_height="wrap_content"
+                    android:text="@string/age"
+                    android:textSize="14dip" />
+
+                <EditText
+                    android:id="@+id/edit_age"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:textSize="12dip"
+                    android:hint="@string/hit_age" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_layout_item"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="30dip"
+                android:layout_height="wrap_content"
+                android:text="@string/nation"
+                android:textSize="14dip" />
+
+            <EditText
+                android:id="@+id/edit_nation"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" 
+                android:singleLine="true"
+                android:textSize="12dip"
+                android:hint="@string/hit_nation"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_layout_item"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="30dip"
+                android:layout_height="wrap_content"
+                android:text="@string/profession"
+                android:textSize="14dip" />
+
+            <EditText
+                android:id="@+id/edit_profession"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textSize="12dip"
+                android:hint="@string/hit_profession" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_layout_item"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="60dip"
+                android:layout_height="wrap_content"
+                android:text="@string/place"
+                android:textSize="14dip" />
+
+            <EditText
+                android:id="@+id/edit_place"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12dip"
+                android:hint="@string/hit_place" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_layout_item"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="60dip"
+                android:layout_height="wrap_content"
+                android:text="@string/contant"
+                android:textSize="14dip" />
+
+            <EditText
+                android:id="@+id/edit_contant"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12dip"
+                android:inputType="phone|textEmailAddress"
+                android:hint="@string/hit_contant" />
+        </LinearLayout>
+        
+        <View 
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg_light_sub"/>
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+	        <Button
+	            android:id="@+id/bt_cmplete"
+	            style="@style/style_layout_item"
+	            android:layout_height="45dip"
+	            android:textColor="@color/title_text_color"
+	            android:layout_marginTop="5dip"
+	            android:layout_marginBottom="5dip"
+	            android:text="@string/complete" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

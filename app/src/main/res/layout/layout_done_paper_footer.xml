@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_layout_theme"
+    android:layout_height="wrap_content"
+    android:minWidth="300dip"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_view_broder"
+        android:orientation="vertical"
+        android:padding="2dip" >
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/style_layout_item"
+            android:layout_height="40dip"
+            android:text="@string/tip_done_paper_thinks"
+            android:textColor="@color/main_text_color"
+            android:textSize="16dip" />
+
+        <Button
+            android:id="@+id/done"
+            style="@style/style_layout_item"
+            android:layout_height="45dip"
+            android:layout_marginBottom="5dip"
+            android:text="@string/ok"
+            android:textColor="@color/title_text_color" />
+    </LinearLayout>
+
+</LinearLayout>

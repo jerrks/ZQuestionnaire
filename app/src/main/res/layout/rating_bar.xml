@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical" >
+
+    <TextView
+        android:id="@+id/label"
+        style="@style/style_subject_answer_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="A:40%"
+        android:textColor="@color/black" />
+
+    <RatingBar
+        android:id="@+id/rating_bar"
+        style="?android:attr/ratingBarStyleIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/margin_medium"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:rating="2" />
+
+    <TextView
+        android:id="@+id/percentage"
+        style="@style/style_subject_answer_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/rating_bar"
+        android:layout_toRightOf="@id/label"
+        android:gravity="right"
+        android:paddingRight="@dimen/padding_max" />
+
+</RelativeLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:layout_margin="@dimen/margin_min" >
+
+    <TextView
+        android:id="@+id/tv_1"
+        style="@style/item_text"
+        android:gravity="left" />
+
+    <TextView
+        android:id="@+id/tv_2"
+        style="@style/item_text" />
+
+    <TextView
+        android:id="@+id/tv_3"
+        style="@style/item_text" />
+
+    <TextView
+        android:id="@+id/tv_4"
+        style="@style/item_text" />
+
+    <TextView
+        android:id="@+id/tv_5"
+        style="@style/item_text" />
+
+    <TextView
+        android:id="@+id/tv_6"
+        style="@style/item_text" />
+
+    <TextView
+        android:id="@+id/tv_7"
+        style="@style/item_text" />
+
+    <TextView
+        android:id="@+id/tv_8"
+        style="@style/item_text" />
+
+</LinearLayout>
