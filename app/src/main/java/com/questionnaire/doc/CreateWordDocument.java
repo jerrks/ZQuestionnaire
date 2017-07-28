@@ -71,7 +71,8 @@ public class CreateWordDocument implements ICreateDocument {
     void writePager(Context context,Range r,Paper m){
         writeData(r, null,m.getName(),"\n\n"); // pager title
         writeData(r, context.getString(R.string.paper_author,""),m.getAuthor(),"\t\t\t"); // author name
-        writeData(r, context.getString(R.string.paper_create_time,""),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(m.getDate())).toString(),"\n\n"); // create date
+        writeData(r, context.getString(R.string.paper_create_time,""),
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(m.getDate())).toString(),"\n\n"); // create date
         writeData(r, context.getString(R.string.paper_description,""),m.getDescription(),"\n\n"); // paper descriptions
         writeData(r, context.getString(R.string.paper_marks,""),m.getMarkes(),"\n"); // markes
 

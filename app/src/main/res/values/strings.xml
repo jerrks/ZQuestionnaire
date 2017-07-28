@@ -12,6 +12,7 @@
     <string name="tab_paper_about">关 于</string>
     <string name="paper_add_subject">添加新题</string>
     <string name="create_paper">创建问卷</string>
+    <string name="title_home">首页</string>
     <string name="title_create_paper">创建调查问卷</string>
     <string name="statistic_paper">问卷统计</string>
     <string name="survey_paper">问卷调查</string>
