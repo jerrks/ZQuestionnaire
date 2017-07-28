@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="audio_list">音频列表</string>
+    <string name="audio_add">添加音频</string>
+
+</resources>
