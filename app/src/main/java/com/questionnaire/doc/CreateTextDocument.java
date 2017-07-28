@@ -49,7 +49,8 @@ public class CreateTextDocument implements ICreateDocument {
     void writePaper(Context context,Paper m,OutputStream os) throws Exception{
         writeByte(os, null,m.getName(),"\n\n"); // pager title
         writeByte(os, context.getString(R.string.paper_author,""),m.getAuthor(),"\t\t\t"); // author name
-        writeByte(os, context.getString(R.string.paper_create_time,""),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(m.getDate())).toString(),"\n\n"); // create date
+        writeByte(os, context.getString(R.string.paper_create_time,""),
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(m.getDate())).toString(),"\n\n"); // create date
         writeByte(os, context.getString(R.string.paper_description,""),m.getDescription(),"\n\n"); // paper descriptions
         writeByte(os, context.getString(R.string.paper_marks,""),m.getMarkes(),"\n\n"); // markes
 

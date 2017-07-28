@@ -3,6 +3,7 @@ package com.questionnaire.activity;
 import com.questionnaire.Conf;
 import com.questionnaire.R;
 import com.questionnaire.activity.create.ActivityCreate;
+import com.questionnaire.activity.create.ActivityHome;
 import com.questionnaire.activity.done.ActivityDoing;
 import com.questionnaire.activity.more.ActivityMore;
 import com.questionnaire.activity.statistic.ActivityStatisticList;
@@ -127,7 +128,7 @@ public class ActivityMain extends ActivityGroup
 		Intent i = new Intent();
 		switch (checkedId) {
 		case R.id.bt_paper_create:
-			i.setClass(this, ActivityCreate.class);
+			i.setClass(this, ActivityHome.class);
 			onTabClicked(TAB_PAPER_CREATE, i);
 			break;
 		case R.id.bt_paper_doing:

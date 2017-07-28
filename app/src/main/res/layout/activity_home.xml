@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_layout_theme"
+    android:background="@color/white"
+    android:orientation="vertical" >
+    <include
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/title_layout"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_title_heigth"
+        android:paddingLeft="@dimen/padding_max"
+        android:text="生成/导出调查问卷"
+        android:gravity="left|center_vertical"
+        android:textSize="@dimen/text_max"
+        android:textColor="@color/gray" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#ededed"/>
+
+    <TextView
+        android:id="@+id/home_create_paper_for_doc"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_title_heigth"
+        android:paddingLeft="@dimen/padding_max"
+        android:paddingRight="@dimen/margin_max"
+        android:text="导出word格式"
+        android:gravity="left|center_vertical"
+        android:textColor="@color/home_item_color"
+        android:textSize="@dimen/text_medium"
+        android:drawableRight="@drawable/ic_arrow_right"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:background="#dddddd"/>
+
+    <TextView
+        android:id="@+id/home_create_paper_for_txt"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_title_heigth"
+        android:paddingLeft="@dimen/padding_max"
+        android:paddingRight="@dimen/margin_max"
+        android:text="导出text格式"
+        android:gravity="left|center_vertical"
+        android:textColor="@color/home_item_color"
+        android:textSize="@dimen/text_medium"
+        android:drawableRight="@drawable/ic_arrow_right"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:background="#dddddd"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_title_heigth"
+        android:layout_marginTop="@dimen/margin_max"
+        android:paddingLeft="@dimen/padding_max"
+        android:text="创建调查问卷/采访"
+        android:gravity="left|center_vertical"
+        android:textSize="@dimen/text_max"
+        android:textColor="@color/gray" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#ededed"/>
+
+    <TextView
+        android:id="@+id/home_create_paper_page"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_title_heigth"
+        android:paddingLeft="@dimen/padding_max"
+        android:paddingRight="@dimen/margin_max"
+        android:text="创建问卷调查"
+        android:gravity="left|center_vertical"
+        android:textColor="@color/home_item_color"
+        android:textSize="@dimen/text_medium"
+        android:drawableRight="@drawable/ic_arrow_right"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:background="#dddddd"/>
+
+    <TextView
+        android:id="@+id/home_record_for_video"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_title_heigth"
+        android:paddingLeft="@dimen/padding_max"
+        android:paddingRight="@dimen/margin_max"
+        android:text="问卷调查视频采访"
+        android:gravity="left|center_vertical"
+        android:textColor="@color/home_item_color"
+        android:textSize="@dimen/text_medium"
+        android:drawableRight="@drawable/ic_arrow_right"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:background="#dddddd"/>
+
+
+    <TextView
+        android:id="@+id/home_record_for_voice"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_title_heigth"
+        android:paddingLeft="@dimen/padding_max"
+        android:paddingRight="@dimen/margin_max"
+        android:text="问卷调查录音采访"
+        android:gravity="left|center_vertical"
+        android:textColor="@color/home_item_color"
+        android:textSize="@dimen/text_medium"
+        android:drawableRight="@drawable/ic_arrow_right"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#ededed"/>
+
+    <TextView
+        android:id="@+id/home_record_for_photo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_title_heigth"
+        android:paddingLeft="@dimen/padding_max"
+        android:paddingRight="@dimen/margin_max"
+        android:text="问卷调查采集图片资料"
+        android:gravity="left|center_vertical"
+        android:textColor="@color/home_item_color"
+        android:textSize="@dimen/text_medium"
+        android:drawableRight="@drawable/ic_arrow_right"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:background="#dddddd"/>
+
+</LinearLayout>
