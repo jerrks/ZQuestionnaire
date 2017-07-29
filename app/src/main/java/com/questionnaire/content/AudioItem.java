@@ -1,4 +1,4 @@
-package com.questionnaire.beans;
+package com.questionnaire.content;
 
 /**
  * Created by zhanghao on 2017/7/27.

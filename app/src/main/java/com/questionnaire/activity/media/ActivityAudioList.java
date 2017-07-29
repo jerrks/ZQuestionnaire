@@ -1,4 +1,4 @@
-package com.questionnaire.activity.audio;
+package com.questionnaire.activity.media;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,9 +12,8 @@ import android.widget.TextView;
 
 import com.questionnaire.R;
 import com.questionnaire.activity.ActivityBase;
-import com.questionnaire.activity.create.ActivityCreate;
 import com.questionnaire.adapter.AdapterAudio;
-import com.questionnaire.beans.AudioItem;
+import com.questionnaire.content.AudioItem;
 
 import java.util.ArrayList;
 import java.util.List;

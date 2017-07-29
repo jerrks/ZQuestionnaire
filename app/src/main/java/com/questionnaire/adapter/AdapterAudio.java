@@ -9,9 +9,7 @@ import android.widget.TextView;
 
 import com.questionnaire.Conf;
 import com.questionnaire.R;
-import com.questionnaire.beans.AudioItem;
-import com.questionnaire.db.Paper;
-import com.questionnaire.db.impl.Dao;
+import com.questionnaire.content.AudioItem;
 
 import java.util.List;
 
