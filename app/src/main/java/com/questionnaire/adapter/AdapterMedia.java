@@ -13,11 +13,11 @@ import com.questionnaire.content.AudioItem;
 
 import java.util.List;
 
-public class AdapterAudio extends AbsListAdapter<AudioItem> {
+public class AdapterAudio extends AbsListAdapter<MediaItem> {
 
 	private static final String TAG = "AdapterAudio";
 
-	public AdapterAudio(Context context, List<AudioItem> list) {
+	public AdapterAudio(Context context, List<MediaItem> list) {
 		super(context);
 		setDataSet(list);
 	}

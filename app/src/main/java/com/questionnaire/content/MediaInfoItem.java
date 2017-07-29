@@ -1,10 +1,11 @@
 package com.questionnaire.content;
 
 /**
+ * 多媒体文件显示信息实体
  * Created by zhanghao on 2017/7/27.
  */
 
-public class AudioItem {
+public class MediaItem {
     public String name;
     public String author;
     public long date;
