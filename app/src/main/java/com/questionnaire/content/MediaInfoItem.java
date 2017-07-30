@@ -1,17 +1,19 @@
 package com.questionnaire.content;
 
+import java.io.File;
+
 /**
- * 多媒体文件显示信息实体
+ * 多媒体文件显示信息实体，用于列表显示
  * Created by zhanghao on 2017/7/27.
  */
 
 public class MediaInfoItem {
-    public String name;
-    public String author;
-    public long date;
-    public long fileAise;
-    public String filePath;
-    public String description;
+    String name;
+    String author;
+    long date;
+    long fileSise;
+    String filePath;
+    String description;
 
     public String getName() {
         return name;
@@ -37,12 +39,12 @@ public class MediaInfoItem {
         this.date = date;
     }
 
-    public long getFileAise() {
-        return fileAise;
+    public long getFileSise() {
+        return fileSise;
     }
 
-    public void setFileAise(long fileAise) {
-        this.fileAise = fileAise;
+    public void setFileSise(long fileAise) {
+        this.fileSise = fileAise;
     }
 
     public String getFilePath() {
@@ -67,9 +69,24 @@ public class MediaInfoItem {
                 "name='" + name + '\'' +
                 ", author='" + author + '\'' +
                 ", date=" + date +
-                ", fileAise=" + fileAise +
+                ", fileSise=" + fileSise +
                 ", filePath='" + filePath + '\'' +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    public static MediaInfoItem fromFile(File file) {
+        MediaInfoItem it = new MediaInfoItem();
+        it.name = file.getName();
+        it.fileSise = file.length();
+        it.date = file.lastModified();
+        it.filePath = file.getPath();
+        it.description = file.getAbsolutePath();
+        return it;
+    }
+
+    public static MediaInfoItem fromFile(String filePath) {
+        File file = new File(filePath);
+        return fromFile(file);
     }
 }

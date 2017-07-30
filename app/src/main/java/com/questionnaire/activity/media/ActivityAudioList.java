@@ -1,22 +1,11 @@
 package com.questionnaire.activity.media;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.questionnaire.R;
-import com.questionnaire.activity.ActivityBase;
-import com.questionnaire.adapter.AdapterMedia;
-import com.questionnaire.content.MediaInfoItem;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.questionnaire.content.CameraManager;
+import com.questionnaire.content.MediaManager;
 
 /**
  * Created by zhanghao on 2017/7/27.
@@ -30,7 +19,12 @@ public class ActivityAudioList extends ActivityMediaListBase{
         mContaxt = getApplicationContext();
         setContentView(R.layout.activity_media_list);
         initView();
-        initData();
+        initListData();
+    }
+
+    @Override
+    protected String getMediaType() {
+        return MediaManager.TYPE_AUDIO;
     }
 
     @Override
@@ -39,7 +33,7 @@ public class ActivityAudioList extends ActivityMediaListBase{
     }
 
     @Override
-    protected String getBootomText() {
+    protected String getBottomText() {
         return getString(R.string.audio_add);
     }
 
@@ -52,6 +46,5 @@ public class ActivityAudioList extends ActivityMediaListBase{
      * 开始录制音频文件，保存在自己的目录下
      */
     void addAudio() {
-
     }
 }

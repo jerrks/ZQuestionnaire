@@ -11,4 +11,6 @@
     <string name="video_list">视频列表</string>
     <string name="video_add">添加视频</string>
 
+    <string name="sdcard_unmounted">请确认已经插入SD卡</string>
+
 </resources>

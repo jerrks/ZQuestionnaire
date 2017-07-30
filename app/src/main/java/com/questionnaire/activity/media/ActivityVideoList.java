@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 
 import com.questionnaire.R;
+import com.questionnaire.content.CameraManager;
+import com.questionnaire.content.MediaManager;
 
 /**
  * Created by zhanghao on 2017/7/27.
@@ -18,6 +20,11 @@ public class ActivityVideoList extends ActivityMediaListBase {
     }
 
     @Override
+    protected String getMediaType() {
+        return MediaManager.TYPE_VIDEO;
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
     }
@@ -28,12 +35,12 @@ public class ActivityVideoList extends ActivityMediaListBase {
     }
 
     @Override
-    protected String getBootomText() {
+    protected String getBottomText() {
         return getString(R.string.video_add);
     }
 
     @Override
     protected void addMedia() {
-        super.addMedia();
+        CameraManager.startCameraForVideo(ActivityVideoList.this, MediaManager.getVideoPath(), REQUEST_VIDEO_CODE);
     }
 }

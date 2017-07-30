@@ -25,7 +25,7 @@ public class AdapterMedia extends AbsListAdapter<MediaInfoItem> {
 	public View getView(int position, View view, ViewGroup parent) {
 		HolderItem holder = null;
 		if(view ==  null){
-			view = LayoutInflater.from(getContext()).inflate(R.layout.audio_list_adapter, null);
+			view = LayoutInflater.from(getContext()).inflate(R.layout.media_list_adapter, null);
 			holder = new HolderItem();
 			holder.name = (TextView) view.findViewById(R.id.name);
 			holder.date = (TextView) view.findViewById(R.id.date);
@@ -37,17 +37,12 @@ public class AdapterMedia extends AbsListAdapter<MediaInfoItem> {
 		}
 
 		MediaInfoItem item = getItem(position);
-		if(Conf.DEBUG) Log.d(TAG, "AudioItem=" + item);
+		if(Conf.DEBUG) Log.d(TAG, "position= " + position + ", " + item);
 		if(item != null){
 			holder.name.setText(item.getName());
-			holder.date.setText(formateString(R.string.paper_author,
-					item.getAuthor()));
-			holder.author.setText(formateString(R.string.paper_create_time, 
-					Conf.formatTime(item.getDate())));
-			holder.description.setText(
-					formateString(R.string.paper_description,
-							item.getDescription()));
-			
+			holder.description.setText(item.getDescription());
+			holder.author.setText(formateString(R.string.paper_author, item.getAuthor()));
+			holder.date.setText(formateString(R.string.paper_create_time,  Conf.formatTime(item.getDate())));
 		}
 		return view;
 	}

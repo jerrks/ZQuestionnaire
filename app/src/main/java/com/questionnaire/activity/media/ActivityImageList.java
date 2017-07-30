@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 
 import com.questionnaire.R;
+import com.questionnaire.content.CameraManager;
+import com.questionnaire.content.MediaManager;
 
 /**
  * Created by zhanghao on 2017/7/27.
@@ -23,17 +25,22 @@ public class ActivityImageList extends ActivityMediaListBase {
     }
 
     @Override
+    protected String getMediaType() {
+        return MediaManager.TYPE_IMAGE;
+    }
+
+    @Override
     protected String getTitleText() {
         return getString(R.string.image_list);
     }
 
     @Override
-    protected String getBootomText() {
+    protected String getBottomText() {
         return getString(R.string.image_add);
     }
 
     @Override
     protected void addMedia() {
-        super.addMedia();
+        CameraManager.startCameraForImage(ActivityImageList.this, MediaManager.getImagePath(), REQUEST_IMAGE_CODE);
     }
 }

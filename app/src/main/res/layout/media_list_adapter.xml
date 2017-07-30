@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_view_broder"
+    android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="3dip"
+            android:layout_marginRight="3dip"
+            android:background="@drawable/list_item_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name"
+                style="@style/style_paper_header_title"
+                android:layout_width="fill_parent"
+                android:maxLines="1"
+                android:textColor="@color/title_text_color" />
+
+            <TextView
+                android:id="@+id/descriprion"
+                style="@style/style_paper_header_text"
+                android:ellipsize="end" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/date"
+                    style="@style/style_paper_header_text"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentLeft="true" />
+
+                <TextView
+                    android:id="@+id/author"
+                    style="@style/style_paper_header_text"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true" />
+            </RelativeLayout>
+        </LinearLayout>
+</LinearLayout>
