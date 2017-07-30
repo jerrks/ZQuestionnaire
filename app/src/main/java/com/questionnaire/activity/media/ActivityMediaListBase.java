@@ -22,19 +22,19 @@ import java.util.List;
  * Created by zhanghao on 2017/7/27.
  */
 
-public class ActivityMediaListBase extends ActivityBase implements View.OnClickListener {
+public abstract class ActivityMediaListBase extends ActivityBase implements View.OnClickListener {
 
-    ListView mListView;
-    AdapterMedia mAdapter;
-    List<MediaInfoItem> mDataSet = new ArrayList<MediaInfoItem>();
+    public ListView mListView;
+    public AdapterMedia mAdapter;
+    public List<MediaInfoItem> mDataSet = new ArrayList<MediaInfoItem>();
 
-    Context mContaxt;
+    public  Context mContaxt;
 
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         mContaxt = getApplicationContext();
-        setContentView(R.layout.activity_audio_list);
+        setContentView(R.layout.activity_media_list);
         initView();
         initData();
     }
@@ -46,19 +46,18 @@ public class ActivityMediaListBase extends ActivityBase implements View.OnClickL
         initData();
     }
 
-    void initView() {
+    public void initView() {
         View v = findViewById(R.id.title);
         TextView titleTv = (TextView) v.findViewById(R.id.title_center);
-        titleTv.setText(R.string.audio_list);
+        titleTv.setText(getTitleText());
 
         Button bt = (Button) v.findViewById(R.id.title_left);
         bt.setVisibility(View.VISIBLE);
-        //bt.setText(R.string.cancel);
         bt.setOnClickListener(this);
 
         bt = (Button) v.findViewById(R.id.title_right);
         bt.setVisibility(View.VISIBLE);
-        bt.setText(R.string.paper_author);
+        bt.setText(getTitleRightText());
         bt.setOnClickListener(this);
 
         mListView = (ListView) findViewById(R.id.paper_list_view);
@@ -77,7 +76,7 @@ public class ActivityMediaListBase extends ActivityBase implements View.OnClickL
                 finish();
                 break;
             case R.id.title_right:
-                addAudio();
+                addMedia();
                 break;
         }
     }
@@ -85,15 +84,19 @@ public class ActivityMediaListBase extends ActivityBase implements View.OnClickL
     /**
      * 直接遍历音频目录下的文件列表，显示在音频列表界面
      */
-    void initData() {
+    protected void initData() {
         mAdapter = new AdapterMedia(mContaxt, mDataSet);
         mListView.setAdapter(mAdapter);
     }
 
+    protected  abstract String getTitleText();
+
+    protected  abstract String getTitleRightText();
+
     /**
      * 开始录制音频文件，保存在自己的目录下
      */
-    void addAudio() {
+    protected void addMedia() {
 
     }
 }

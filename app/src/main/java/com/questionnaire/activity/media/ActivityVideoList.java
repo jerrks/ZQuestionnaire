@@ -24,14 +24,16 @@ public class ActivityVideoList extends ActivityMediaListBase {
 
     @Override
     protected String getTitleText() {
-        return getString(R.string.audio_list);
+        return getString(R.string.video_list);
     }
 
-    /**
-     * 开始录制音频文件，保存在自己的目录下
-     */
     @Override
-    protected void addMidia() {
+    protected String getTitleRightText() {
+        return getString(R.string.video_add);
+    }
 
+    @Override
+    protected void addMedia() {
+        super.addMedia();
     }
 }

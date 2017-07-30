@@ -9,15 +9,15 @@ import android.widget.TextView;
 
 import com.questionnaire.Conf;
 import com.questionnaire.R;
-import com.questionnaire.content.AudioItem;
+import com.questionnaire.content.MediaInfoItem;
 
 import java.util.List;
 
-public class AdapterAudio extends AbsListAdapter<MediaItem> {
+public class AdapterMedia extends AbsListAdapter<MediaInfoItem> {
 
 	private static final String TAG = "AdapterAudio";
 
-	public AdapterAudio(Context context, List<MediaItem> list) {
+	public AdapterMedia(Context context, List<MediaInfoItem> list) {
 		super(context);
 		setDataSet(list);
 	}
@@ -36,7 +36,7 @@ public class AdapterAudio extends AbsListAdapter<MediaItem> {
 			holder = (HolderItem) view.getTag();
 		}
 
-		AudioItem item = getItem(position);
+		MediaInfoItem item = getItem(position);
 		if(Conf.DEBUG) Log.d(TAG, "AudioItem=" + item);
 		if(item != null){
 			holder.name.setText(item.getName());

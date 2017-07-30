@@ -116,6 +116,21 @@
             android:name=".activity.more.ActivityIntr" 
             android:screenOrientation="portrait" 
             android:launchMode="singleTop"/>
+
+        <activity
+            android:name=".activity.media.ActivityVideoList"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
+
+        <activity
+            android:name=".activity.media.ActivityImageList"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
+
+        <activity
+            android:name=".activity.media.ActivityAudioList"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
         
     </application>
 

@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.questionnaire.R;
 import com.questionnaire.activity.ActivityBase;
-import com.questionnaire.adapter.AdapterAudio;
-import com.questionnaire.content.AudioItem;
+import com.questionnaire.adapter.AdapterMedia;
+import com.questionnaire.content.MediaInfoItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,72 +22,30 @@ import java.util.List;
  * Created by zhanghao on 2017/7/27.
  */
 
-public class ActivityAudioList extends ActivityBase implements View.OnClickListener {
-
-    ListView mListView;
-    AdapterAudio mAdapter;
-    List<AudioItem> mDataSet = new ArrayList<AudioItem>();
-
-    Context mContaxt;
+public class ActivityAudioList extends ActivityMediaListBase{
 
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         mContaxt = getApplicationContext();
-        setContentView(R.layout.activity_audio_list);
+        setContentView(R.layout.activity_media_list);
         initView();
         initData();
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
-        initData();
-    }
-
-    void initView() {
-        View v = findViewById(R.id.title);
-        TextView titleTv = (TextView) v.findViewById(R.id.title_center);
-        titleTv.setText(R.string.audio_list);
-
-        Button bt = (Button) v.findViewById(R.id.title_left);
-        bt.setVisibility(View.VISIBLE);
-        //bt.setText(R.string.cancel);
-        bt.setOnClickListener(this);
-
-        bt = (Button) v.findViewById(R.id.title_right);
-        bt.setVisibility(View.VISIBLE);
-        bt.setText(R.string.paper_author);
-        bt.setOnClickListener(this);
-
-        mListView = (ListView) findViewById(R.id.paper_list_view);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
-            }
-        });
+    protected String getTitleText() {
+        return getString(R.string.audio_list);
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.title_left:
-                finish();
-                break;
-            case R.id.title_right:
-                addAudio();
-                break;
-        }
+    protected String getTitleRightText() {
+        return getString(R.string.audio_add);
     }
 
-    /**
-     * 直接遍历音频目录下的文件列表，显示在音频列表界面
-     */
-    void initData() {
-        mAdapter = new AdapterAudio(mContaxt, mDataSet);
-        mListView.setAdapter(mAdapter);
+    @Override
+    protected void addMedia() {
+        addAudio();
     }
 
     /**

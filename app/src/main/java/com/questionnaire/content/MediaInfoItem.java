@@ -5,7 +5,7 @@ package com.questionnaire.content;
  * Created by zhanghao on 2017/7/27.
  */
 
-public class MediaItem {
+public class MediaInfoItem {
     public String name;
     public String author;
     public long date;
