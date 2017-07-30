@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="add">添加</string>
     <string name="image_list">图片列表</string>
     <string name="image_add">添加图片</string>
 
@@ -8,6 +9,6 @@
     <string name="audio_add">添加音频</string>
 
     <string name="video_list">视频列表</string>
-    <string name="video_add">视频音频</string>
+    <string name="video_add">添加视频</string>
 
 </resources>

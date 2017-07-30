@@ -7,6 +7,9 @@ import android.widget.TextView;
 
 import com.questionnaire.R;
 import com.questionnaire.activity.ActivityBase;
+import com.questionnaire.activity.media.ActivityAudioList;
+import com.questionnaire.activity.media.ActivityImageList;
+import com.questionnaire.activity.media.ActivityVideoList;
 
 /**
  * Created by discover on 2017/7/27.
@@ -48,13 +51,13 @@ public class ActivityHome extends ActivityBase implements View.OnClickListener{
                 startActivity(new Intent(this,ActivityCreate.class));
                 break;
             case R.id.home_record_for_video:
-
+                startActivity(new Intent(this,ActivityVideoList.class));
                 break;
             case R.id.home_record_for_voice:
-
+                startActivity(new Intent(this,ActivityAudioList.class));
                 break;
             case R.id.home_record_for_photo:
-
+                startActivity(new Intent(this,ActivityImageList.class));
                 break;
         }
     }

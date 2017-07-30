@@ -28,7 +28,7 @@ public class ActivityImageList extends ActivityMediaListBase {
     }
 
     @Override
-    protected String getTitleRightText() {
+    protected String getBootomText() {
         return getString(R.string.image_add);
     }
 

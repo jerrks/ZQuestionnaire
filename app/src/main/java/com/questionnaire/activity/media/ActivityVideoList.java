@@ -28,7 +28,7 @@ public class ActivityVideoList extends ActivityMediaListBase {
     }
 
     @Override
-    protected String getTitleRightText() {
+    protected String getBootomText() {
         return getString(R.string.video_add);
     }
 

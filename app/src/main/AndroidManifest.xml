@@ -119,16 +119,19 @@
 
         <activity
             android:name=".activity.media.ActivityVideoList"
+            android:configChanges="touchscreen|navigation|orientation"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"/>
 
         <activity
             android:name=".activity.media.ActivityImageList"
+            android:configChanges="touchscreen|navigation|orientation"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"/>
 
         <activity
             android:name=".activity.media.ActivityAudioList"
+            android:configChanges="touchscreen|navigation|orientation"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"/>
         
