@@ -47,7 +47,7 @@ public class CameraManager {
         // 把文件地址转换成Uri格式
         Uri uri = Uri.fromFile(file);
         // 设置系统相机拍摄照片完成后图片文件的存放地址
-        Log.i(TAG, "startCamera action: " + action + ":\n" + filePath + " >> " + uri);
+        Log.i(TAG, "startCamera action: " + action + ", url: " + uri);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         activity.startActivityForResult(intent, requestCode);
     }
