@@ -28,13 +28,13 @@ public class CameraManager {
     public static void startCamera(Activity activity, String action,  String filePath, int requestCode) {
         Intent intent = new Intent();
         // 指定开启系统相机的Action
-        intent.setAction(MediaStore.ACTION_VIDEO_CAPTURE);
+        intent.setAction(action);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         // 根据文件地址创建文件目录
         File file = new File(filePath);
         File dir = file.getParentFile();
         if (!dir.exists()) {
-            boolean result = dir.mkdir();
+            boolean result = dir.mkdirs();
             if (!result) {
                 Log.e(TAG, "Make dir failed: " + dir);
                 return;
@@ -47,6 +47,7 @@ public class CameraManager {
         // 把文件地址转换成Uri格式
         Uri uri = Uri.fromFile(file);
         // 设置系统相机拍摄照片完成后图片文件的存放地址
+        Log.i(TAG, "startCamera action: " + action + ":\n" + filePath + " >> " + uri);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         activity.startActivityForResult(intent, requestCode);
     }

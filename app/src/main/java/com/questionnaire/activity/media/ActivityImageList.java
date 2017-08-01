@@ -2,10 +2,10 @@ package com.questionnaire.activity.media;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 
 import com.questionnaire.R;
 import com.questionnaire.content.CameraManager;
+import com.questionnaire.content.MediaInfoItem;
 import com.questionnaire.content.MediaManager;
 
 /**
@@ -15,8 +15,8 @@ import com.questionnaire.content.MediaManager;
 public class ActivityImageList extends ActivityMediaListBase {
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -41,6 +41,13 @@ public class ActivityImageList extends ActivityMediaListBase {
 
     @Override
     protected void addMedia() {
-        CameraManager.startCameraForImage(ActivityImageList.this, MediaManager.getImagePath(), REQUEST_IMAGE_CODE);
+        String filePath = MediaManager.getImagePath();
+        CameraManager.startCameraForImage(ActivityImageList.this, filePath, REQUEST_IMAGE_CODE);
+    }
+
+    @Override
+    protected void performItemClick(MediaInfoItem item) {
+        String filePath = item.getFilePath();
+        MediaManager.previewImage(this, filePath);
     }
 }

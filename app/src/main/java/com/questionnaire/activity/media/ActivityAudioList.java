@@ -1,10 +1,8 @@
 package com.questionnaire.activity.media;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 
 import com.questionnaire.R;
-import com.questionnaire.content.CameraManager;
 import com.questionnaire.content.MediaManager;
 
 /**
@@ -14,12 +12,8 @@ import com.questionnaire.content.MediaManager;
 public class ActivityAudioList extends ActivityMediaListBase{
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-        mContaxt = getApplicationContext();
-        setContentView(R.layout.activity_media_list);
-        initView();
-        initListData();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override

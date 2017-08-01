@@ -13,4 +13,6 @@
 
     <string name="sdcard_unmounted">请确认已经插入SD卡</string>
 
+    <string name="file_not_exists">文件不存在</string>
+
 </resources>

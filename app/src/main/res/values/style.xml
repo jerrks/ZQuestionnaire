@@ -44,7 +44,7 @@
     </style>
     
     <style name="style_paper_header_title" parent="@style/style_text_base">
-     	<item name="android:textSize">@dimen/text_max</item>
+     	<item name="android:textSize">@dimen/text_medium</item>
      	<item name="android:textColor">@color/black</item>
     </style>
     
@@ -187,4 +187,12 @@
         <item name="android:windowBackground">@color/item_tip_color</item><!--除去背景色-->
         <item name="android:backgroundDimEnabled">true</item><!--模糊-->
      </style>
+
+	<style name="progressbar_hor_yellow">
+		<item name="android:indeterminateOnly">false</item>
+		<item name="android:progressDrawable">@drawable/progressbar_hor_yellow</item>
+		<item name="android:indeterminateDrawable">@android:drawable/progress_indeterminate_horizontal</item>
+		<item name="android:minHeight">3dip</item>
+		<item name="android:maxHeight">3dip</item>
+	</style>
 </resources>

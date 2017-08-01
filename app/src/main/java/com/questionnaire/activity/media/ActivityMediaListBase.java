@@ -2,21 +2,26 @@ package com.questionnaire.activity.media;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.questionnaire.R;
 import com.questionnaire.activity.ActivityBase;
 import com.questionnaire.adapter.AdapterMedia;
+import com.questionnaire.content.LoadDataTask;
 import com.questionnaire.content.MediaInfoItem;
 import com.questionnaire.content.MediaManager;
+import com.questionnaire.utils.ToastUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +37,33 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
     public static final int REQUEST_VIDEO_CODE = 0x02;
     public static final int REQUEST_AUDIO_CODE = 0x03;
 
+    public static final int MSG_WHAT_LOAD_PROGRESS = 0x01;
+    public static final int MSG_WHAT_LOAD_FINISHED = 0x02;
+
     public ListView mListView;
+    ProgressBar mProgressBar;
     public AdapterMedia mAdapter;
     public List<MediaInfoItem> mDataSet = new ArrayList<MediaInfoItem>();
 
-    public  Context mContaxt;
+    public Context mContaxt;
+
+    public Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_WHAT_LOAD_PROGRESS:
+                    int progress = msg.arg1;
+                    mProgressBar.setProgress(progress);
+                    break;
+                case MSG_WHAT_LOAD_FINISHED:
+                    List<MediaInfoItem> dataSet = (List<MediaInfoItem>) msg.obj;
+                    updateDataSet(dataSet);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,19 +71,20 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
         setContentView(R.layout.activity_media_list);
         mContaxt = getApplicationContext();
         initView();
-        initListData();
+        initListDataAsync();
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        initListData();
+        initListDataAsync();
     }
 
     public void initView() {
         intHeaderViews();
 
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar_hor);
         TextView bootumBtn = (TextView) findViewById(R.id.media_add_tv);
         bootumBtn.setVisibility(View.VISIBLE);
         bootumBtn.setText(getBottomText());
@@ -66,9 +94,19 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
+                MediaInfoItem item = mDataSet.get(position);
+                String filePath = item.getFilePath();
+                if (MediaManager.isFileExists(filePath)) {
+                    performItemClick(item);
+                } else {
+                    Log.e(TAG, "onItemClick failed, not exists file: " + filePath);
+                    ToastUtils.show(mContaxt, formateString(R.string.file_not_exists, filePath));
+                }
             }
         });
+
+        mAdapter = new AdapterMedia(mContaxt, mDataSet);
+        mListView.setAdapter(mAdapter);
     }
 
     protected void intHeaderViews() {
@@ -104,32 +142,28 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
     }
 
     /**
-     * 直接遍历音频目录下的文件列表，显示在音频列表界面
+     * 异步遍历音频目录下的文件列表，显示在音频列表界面
      */
-    protected void initListData() {
-        initDateSet("initListData");
-        mAdapter = new AdapterMedia(mContaxt, mDataSet);
-        mListView.setAdapter(mAdapter);
-    }
-
-    protected void initDateSet(String remark) {
+    protected void initListDataAsync() {
         String mediaType = getMediaType();
         String dir = MediaManager.getMediaDir(mediaType);
-        File dirFile = new File(dir);
-        File[] list = dirFile.listFiles();
-        List<MediaInfoItem> dataSet = new ArrayList<MediaInfoItem>();
-        if (list != null && list.length > 0) {
-            for (File file : list) {
-                dataSet.add(MediaInfoItem.fromFile(file));
+        LoadDataTask task = new LoadDataTask(mediaType, new LoadDataTask.LoadDataCallback() {
+            @Override
+            public void onLoadProgress(int progress, String filePath) {
+                Log.i(TAG, "Loaded progress= " + progress + ", filePath: " + filePath);
+                Message msg = mHandler.obtainMessage(MSG_WHAT_LOAD_PROGRESS, progress, 0);
+                msg.sendToTarget();
             }
-        } else {
-            Log.w(TAG, "initDateSet empty dir: " + dir);
-        }
-        Log.i(TAG, "Init data set  mediaType= " + mediaType + ", count= " + dataSet.size() + ",: " + remark);
-        mDataSet.clear();
-        if (!dataSet.isEmpty()) {
-            mDataSet.addAll(dataSet);
-        }
+
+            @Override
+            public void onLoadFinished(int count, List<MediaInfoItem> dataSet) {
+                Log.i(TAG, "onLoadFinished count= " + count);
+                Message msg = mHandler.obtainMessage(MSG_WHAT_LOAD_FINISHED, 100, 0, dataSet);
+                msg.sendToTarget();
+            }
+        });
+        //task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, dir);
+        task.execute(dir);
     }
 
     protected void updateDataSet(List<MediaInfoItem> dataSet) {
@@ -138,7 +172,9 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
             mListView.setAdapter(mAdapter);
         }
         mDataSet.clear();
-        mDataSet.addAll(dataSet);
+        if (dataSet != null && !dataSet.isEmpty()) {
+            mDataSet.addAll(dataSet);
+        }
         mAdapter.updateDataSet(dataSet);
         mAdapter.notifyDataSetChanged();
     }
@@ -147,9 +183,13 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            initDateSet("onActivityResult");
-            updateDataSet(mDataSet);
+            initListDataAsync();
         }
+    }
+
+    protected String formateString(int resId, Object arg){
+        return String.format(mContaxt.getString(resId), arg);
+
     }
 
     protected  abstract String getMediaType();
@@ -162,6 +202,8 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
      * 开始录制音频文件，保存在自己的目录下
      */
     protected void addMedia() {
+    }
 
+    protected void performItemClick(MediaInfoItem item) {
     }
 }

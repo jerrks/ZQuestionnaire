@@ -4,4 +4,5 @@
     <color name="main_text_color">#414042</color>
     <color name="item_clicked_color">#999999</color>
     <color name="item_tip_color">#a0000000</color>
+    <color name="progress_yellow">#f8c701</color>
 </resources>

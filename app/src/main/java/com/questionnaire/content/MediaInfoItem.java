@@ -1,5 +1,8 @@
 package com.questionnaire.content;
 
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
+
 import java.io.File;
 
 /**
@@ -9,11 +12,16 @@ import java.io.File;
 
 public class MediaInfoItem {
     String name;
-    String author;
+    String mediaType;//one of MediaManager.TYPE_*
     long date;
     long fileSise;
     String filePath;
     String description;
+    Bitmap thumbnail;
+
+    public MediaInfoItem(String mediaType) {
+        this.mediaType = mediaType;
+    }
 
     public String getName() {
         return name;
@@ -23,12 +31,12 @@ public class MediaInfoItem {
         this.name = name;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getMediaType() {
+        return mediaType;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
     }
 
     public long getDate() {
@@ -63,11 +71,18 @@ public class MediaInfoItem {
         this.description = description;
     }
 
+    public void setThumbnail(Bitmap thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    public Bitmap getThumbnail() {
+        return thumbnail;
+    }
+
     @Override
     public String toString() {
         return "AudioItem{" +
                 "name='" + name + '\'' +
-                ", author='" + author + '\'' +
                 ", date=" + date +
                 ", fileSise=" + fileSise +
                 ", filePath='" + filePath + '\'' +
@@ -75,18 +90,20 @@ public class MediaInfoItem {
                 '}';
     }
 
-    public static MediaInfoItem fromFile(File file) {
-        MediaInfoItem it = new MediaInfoItem();
+    public static MediaInfoItem fromFile(File file, String mediaType) {
+        MediaInfoItem it = new MediaInfoItem(mediaType);
+        it.name = file.getName();
         it.name = file.getName();
         it.fileSise = file.length();
         it.date = file.lastModified();
         it.filePath = file.getPath();
         it.description = file.getAbsolutePath();
+        it.thumbnail = MediaManager.getThumbnail(it.filePath, mediaType);
         return it;
     }
 
-    public static MediaInfoItem fromFile(String filePath) {
+    public static MediaInfoItem fromFile(String filePath, String mediaType) {
         File file = new File(filePath);
-        return fromFile(file);
+        return fromFile(file, mediaType);
     }
 }

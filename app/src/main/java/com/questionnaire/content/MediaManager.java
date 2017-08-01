@@ -5,6 +5,10 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -20,7 +24,7 @@ import java.io.File;
  */
 
 public class MediaManager {
-    public static final String TAG = "NaireMedia";
+    public static final String TAG = "Naire";
 
     public static final String ROOT_DIR = "/questionnaire/media/";
 
@@ -40,10 +44,10 @@ public class MediaManager {
     public static String getMediaDir(String mediaType) {
         File dir = new File(getSDcardRootDir() + ROOT_DIR + mediaType + "/");
         if (!dir.exists()) {
-            boolean made = dir.mkdirs();
-           if(!made) Log.e(TAG, "Make dir failed: " + dir);
+            boolean mkDir = dir.mkdirs();
+           if(!mkDir) Log.e(TAG, "Make dir failed: " + dir);
         }
-        return dir.getAbsolutePath();
+        return dir.getAbsolutePath() + "/";
     }
 
     /**
@@ -101,6 +105,30 @@ public class MediaManager {
         activity.startActivityForResult(intent, 0);
     }
 
+    public static void previewImage(Context context, String filePath) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.fromFile(new File(filePath));
+        intent.setDataAndType(uri, "image/*");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    public static void previewVideo(Context context, String filePath) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.fromFile(new File(filePath));
+        intent.setDataAndType(uri, "video/*");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    public static void previewAudio(Context context, String filePath) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.fromFile(new File(filePath));
+        intent.setDataAndType(uri, "audio/*");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
     /**
      * 由uri转化为系统文件路径
      * @param context
@@ -129,5 +157,81 @@ public class MediaManager {
             }
         }
         return filePath;
+    }
+
+    /**
+     * 获取图片和视频的缩略图
+     * @param filePath
+     * @param mediaType  TYPE_IMAGE or TYPE_VIDEO
+     * @return
+     */
+    public static Bitmap getThumbnail(String filePath, String mediaType) {
+        if (!isFileExists(filePath)) {
+            Log.e(TAG, mediaType + " >> get Thumbnail failed: file is not exists or not a file: " + filePath);
+            return null;
+        }
+        Bitmap thumbnail = null;
+        if (TYPE_IMAGE.equals(mediaType)) {
+            thumbnail = extractImageThumbnail(filePath);
+        } else if (TYPE_VIDEO.equals(mediaType)) {
+            thumbnail = createVideoThumbnail(filePath);//获取最大的一帧
+            //thumbnail = getVideoFrameAtTime(filePath);
+        }
+        Log.i(TAG, mediaType + " >> " + thumbnail + ", from file: " + filePath);
+        return thumbnail;
+    }
+
+    public static Bitmap extractImageThumbnail(String filePath) {
+        Bitmap source = BitmapFactory.decodeFile(filePath);
+        if (source == null) {
+            Log.e(TAG, "The Bitmap is null from: " + filePath);
+            return null;
+        }
+        return ThumbnailUtils.extractThumbnail(source, 180, 180, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+    }
+
+    /**
+     * 获取视频缩略图：获取最大关键帧
+     * @param filePath
+     * @return
+     */
+    public static Bitmap createVideoThumbnail(String filePath) {
+        return ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Images.Thumbnails.MICRO_KIND);
+    }
+
+    /**
+     * 获取视频缩略图：第一个关键帧
+     * @param filePath
+     * @return
+     */
+    public static Bitmap getVideoFrameAtTime(String filePath) {
+        return getVideoFrameAtTime(filePath, 0);// 获取第一个关键帧
+    }
+
+    /**
+     * 获取视频缩略图：第timeUs个关键帧, timeUs表示第timeUs个关键帧
+     * @param filePath
+     * @param timeUs  w为0表示第一个关键帧
+     * @return
+     */
+    public static Bitmap getVideoFrameAtTime(String filePath, long timeUs) {
+        // 获取第timeUs个关键帧
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(filePath);
+        return retriever.getFrameAtTime(timeUs, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+    }
+
+    /**
+     * 文件是否存在
+     * @param filePath
+     * @return
+     */
+    public static boolean isFileExists(String filePath) {
+        File file = new File(filePath);
+        if (file.exists() && file.isFile()) {
+            Log.e(TAG, "getVideoFrameAtTime failed for invalid file: " + filePath);
+            return true;
+        }
+        return false;
     }
 }

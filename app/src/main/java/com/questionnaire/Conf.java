@@ -23,7 +23,7 @@ public class Conf {
 	public static String formatTime(long milles){
 		if(milles < 1000)
 			milles = System.currentTimeMillis();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date d = new Date(milles);
 		return sdf.format(d);
 	}
