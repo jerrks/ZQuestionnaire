@@ -9,5 +9,5 @@ import android.content.Context;
 public interface ICreateDocument {
     String[] OPTION_LABELS = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N"};
 
-    boolean onCreateDocument(Context context,String dir);
+    boolean onCreateDocument(Context context,String dir,long id);
 }

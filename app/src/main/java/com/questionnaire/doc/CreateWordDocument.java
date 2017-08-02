@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,17 +30,24 @@ import java.util.List;
 public class CreateWordDocument implements ICreateDocument {
 
     @Override
-    public boolean onCreateDocument(Context context,String docRootPath) {
+    public boolean onCreateDocument(Context context,String dirPath,long id) {
         File temp = null;
         try {
-            File dir = new File(docRootPath);
+            File dir = new File(dirPath);
             if(!dir.exists()) dir.mkdirs();
             temp = new File(dir,"temp.doc");
 
             if(!temp.exists()) temp.createNewFile();
 
             IPaper<Paper> dao = Dao.getDaoPaper();
-            List<Paper> papers = dao.getAll();
+            List<Paper> papers;
+            if(id<0){
+                papers = dao.getAll();
+            }else{
+                papers = new ArrayList<Paper>(1);
+                Paper p = dao.get(id);
+                papers.add(p);
+            }
             if(papers==null || papers.isEmpty()) return false;
 
             for(Paper page : papers){
