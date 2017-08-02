@@ -14,8 +14,8 @@ public class DocumentBuilder {
         return this;
     }
 
-    public boolean create(Context context,String docRootDir){
-        return documentCreater.onCreateDocument(context,docRootDir);
+    public boolean create(Context context,String docRootDir,long id){
+        return documentCreater.onCreateDocument(context,docRootDir,id);
     }
 
     public static ICreateDocument createDocDocumentCreater(){

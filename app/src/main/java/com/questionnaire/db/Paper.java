@@ -8,7 +8,18 @@ public class Paper extends Base {
 	private String author;
 	private String markes;
 	private long date;
-	
+
+	// inner usage
+	boolean selected;
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
 	/**
 	 * @return the subjectIds
 	 */

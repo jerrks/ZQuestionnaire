@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.questionnaire.Conf;
 import com.questionnaire.R;
 import com.questionnaire.activity.ActivityBase;
 import com.questionnaire.activity.media.ActivityAudioList;
@@ -63,6 +64,7 @@ public class ActivityHome extends ActivityBase implements View.OnClickListener{
     }
 
     void createAndLoadPagersForDocument(boolean isWordFormat){
-
+        startActivity(new Intent(this,ActivityCreateDocument.class)
+            .putExtra(Conf.INTENT_DATA,isWordFormat));
     }
 }
