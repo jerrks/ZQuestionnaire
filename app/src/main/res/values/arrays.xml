@@ -55,4 +55,7 @@
         <item > 第6</item>
         <item > 第7</item>
     </string-array>
+    <string-array name="media_long_click_option">
+        <item >删除</item>
+    </string-array>
 </resources>

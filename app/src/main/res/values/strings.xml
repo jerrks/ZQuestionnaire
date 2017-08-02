@@ -22,6 +22,7 @@
     <string name="back">返回</string>
     <string name="save">保存</string>
     <string name="create">新建</string>
+    <string name="delete">删除</string>
     <string name="more">更多</string>
     
     <string name="cancel">取 消</string>
@@ -30,6 +31,7 @@
     <string name="paper_create_time">创建时间: %s</string>
     <string name="paper_description">简介: %s</string>
 	<string name="paper_marks">备注: %s</string>
+    <string name="time_context">时间: %s</string>
     <string name="dilog_create_paper_title">创建问卷</string>
 
     <string name="subject_label_name">(%1$d) %2$s</string>

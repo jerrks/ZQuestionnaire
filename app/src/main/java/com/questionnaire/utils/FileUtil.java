@@ -62,4 +62,32 @@ public class FileUtil {
 			return false;
 		}
 	}
+
+	/**
+	 * 文件是否存在
+	 * @param filePath
+	 * @return
+	 */
+	public static boolean isFileExist(String filePath) {
+		File file = new File(filePath);
+		if (!file.exists() || !file.isFile()) {
+			Log.w(TAG, "Not exists real file: " + filePath);
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * 文件夹是否存在
+	 * @param dir
+	 * @return
+	 */
+	public static boolean isDirExist(String dir) {
+		File file = new File(dir);
+		if (!file.exists() || file.isFile()) {
+			Log.w(TAG, "Not exists dir: " + dir);
+			return false;
+		}
+		return true;
+	}
 }

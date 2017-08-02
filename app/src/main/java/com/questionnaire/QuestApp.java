@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class QuestApp extends Application {
 
-	
+
 	private static final String TAG = "QuestApp";
 	static QuestApp sQuestApp = null;
 	@Override

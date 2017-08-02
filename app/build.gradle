@@ -8,8 +8,8 @@ android {
     }
     defaultConfig {
         applicationId "com.zquestionnaire"
-        minSdkVersion 15
-        targetSdkVersion 25
+        minSdkVersion 10
+        targetSdkVersion 14 //targetSdkVersion>=23 need to use CompatContext and ActivityCompat to grant permission
         versionCode 2
         versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

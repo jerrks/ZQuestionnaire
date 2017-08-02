@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_item_bg"
+    android:padding="5dp">
+    <!--android:background="@drawable/item_view_broder"-->
+
+    <ImageView
+        android:id="@+id/thumbnail_view"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_vertical" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dip"
+        android:layout_marginRight="3dip"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/name_tv"
+            style="@style/style_paper_header_title"
+            android:layout_width="fill_parent"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/title_text_color" />
+
+        <TextView
+            android:id="@+id/description_tv"
+            style="@style/style_paper_header_text"
+            android:ellipsize="end"
+            android:maxLines="1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/size_tv"
+                style="@style/style_paper_header_text"
+                android:layout_width="wrap_content" />
+
+            <TextView
+                android:id="@+id/date_tv"
+                style="@style/style_paper_header_text"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true" />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
