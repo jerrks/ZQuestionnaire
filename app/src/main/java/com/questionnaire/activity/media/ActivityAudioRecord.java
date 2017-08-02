@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,13 +45,13 @@ public class ActivityAudioRecord extends ActivityBase implements View.OnClickLis
     private TextView mInfoTv;
 
     private File myRecAudioFile;
-    private File myRecAudioDir;
+    private String myRecAudioDir;
 
     private MediaRecorder mMediaRecorder01;
     private ArrayList<String> mRecordFileList = new ArrayList<String>();
     private ArrayAdapter<String> adapter;// 用于ListView的适配器
     private boolean sdCardExit;
-    private boolean isStopRecord;
+    private boolean isStopRecord = false;
     private MyTimer mMyTimer;
 
     /**
@@ -74,15 +75,13 @@ public class ActivityAudioRecord extends ActivityBase implements View.OnClickLis
         mStopBtn.setEnabled(false);
         mPlayBtn.setEnabled(false);
         mDeleteBtn.setEnabled(false);
-        String filePath = getIntent().getStringExtra("filePath");
-        Log.i(TAG, "Received filePath: " + filePath);
-        myRecAudioFile = new File(filePath);
+        myRecAudioDir = getIntent().getStringExtra("audio_dir");
+        Log.i(TAG, "Received filePath: " + myRecAudioDir);
+        if (TextUtils.isEmpty(myRecAudioDir)) {
+            myRecAudioDir = MediaManager.getAudioPath();
+        }
 
         sdCardExit = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
-
-        if (sdCardExit) {
-            myRecAudioDir = myRecAudioFile.getParentFile();
-        }
 
         loadRecordFiles();
 
@@ -102,7 +101,7 @@ public class ActivityAudioRecord extends ActivityBase implements View.OnClickLis
                         mPlayBtn.setEnabled(true);
                         mDeleteBtn.setEnabled(true);
                         String fileName = mRecordFileList.get(position);
-                        String filePath = myRecAudioDir.getAbsolutePath() + "/" + fileName;
+                        String filePath = myRecAudioDir + "/" + fileName;
                         File file = new File(filePath);
                         if (file.exists()) {
                             MediaManager.previewFile(mContext, filePath);;
@@ -149,6 +148,8 @@ public class ActivityAudioRecord extends ActivityBase implements View.OnClickLis
             ToastUtils.show(ActivityAudioRecord.this, R.string.sdcard_unmounted);
             return;
         }
+        String fileName = MediaManager.getFileName(MediaManager.TYPE_AUDIO);
+        myRecAudioFile = new File(myRecAudioDir + "/" +fileName);
         try {
             stopMediaRecorder();//release at first
             mMediaRecorder01 = new MediaRecorder();
@@ -160,7 +161,8 @@ public class ActivityAudioRecord extends ActivityBase implements View.OnClickLis
             mMediaRecorder01.prepare();
             mMediaRecorder01.start();
 
-            mInfoTv.setText(getString(R.string.audio_recording, "......"));
+            String text = mContext.getString(R.string.recording_tip, "00");
+            mInfoTv.setText(text);
             startTimer();//计时
 
             mRecordBtn.setEnabled(false);
@@ -234,20 +236,32 @@ public class ActivityAudioRecord extends ActivityBase implements View.OnClickLis
 
     @Override
     protected void onStop() {
-        if (mMediaRecorder01 != null && !isStopRecord) {
-            mMediaRecorder01.stop();
-            mMediaRecorder01.release();
-            mMediaRecorder01 = null;
+        if (!isStopRecord) {
+            stopMediaRecorder();
         }
         stopTimerIfNeed();
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //文件保存成功
+        int resultCode = RESULT_CANCELED;
+        if (myRecAudioFile != null && myRecAudioFile.exists()) {
+            resultCode = RESULT_OK;
+            Log.i(TAG, "Recored audio success: " + myRecAudioFile);
+        } else {
+            Log.w(TAG, "onDestroy setResult resultCode RESULT_CANCELED ");
+        }
+        setResult(resultCode);
     }
 
     // 存储一个音频文件数组到list当中
     private void loadRecordFiles() {
         mRecordFileList.clear();
         if (sdCardExit) {
-            File files[] = myRecAudioDir.listFiles();
+            File files[] = new File(myRecAudioDir).listFiles();
             if (files != null) {
                 for (int i = files.length -1; i >= 0; i--) {
                     if (files[i].getName().indexOf(".") >= 0) {
@@ -277,7 +291,7 @@ public class ActivityAudioRecord extends ActivityBase implements View.OnClickLis
                         mTimeDelta = System.currentTimeMillis() - mStartTime;
                         long seconds = mTimeDelta / UPDATE_INTERVAL;
                         String timeText = DateTimeUtil.formatIntervalSeconds(seconds);
-                        mInfoTv.setText(mContext.getString(R.string.audio_recording, timeText));
+                        mInfoTv.setText(mContext.getString(R.string.recording_tip, timeText));
                         break;
                 }
             }

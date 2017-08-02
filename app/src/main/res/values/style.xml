@@ -52,7 +52,12 @@
      	<item name="android:textSize">@dimen/text_min</item>
      	<item name="android:textColor">@color/title_text_color</item>
     </style>
-    
+
+	<style name="style_item_tip" parent="@style/style_text_base">
+		<item name="android:textSize">@dimen/text_min</item>
+		<item name="android:textColor">@color/item_tip_color</item>
+	</style>
+
     <style name="style_subject_title_text" parent="@style/style_text_base">
      	<item name="android:textSize">@dimen/subject_title_text_size</item>
      	<item name="android:textColor">@color/black</item>

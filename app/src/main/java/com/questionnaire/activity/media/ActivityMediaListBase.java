@@ -254,7 +254,7 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
             case REQUEST_AUDIO_CODE:
                 //to do record audio
                 Intent intent = new Intent(mContaxt, ActivityAudioRecord.class);
-                intent.putExtra("filePath", destFilePath);
+                intent.putExtra("audio_dir", MediaManager.getMediaDir(MediaManager.TYPE_AUDIO));
                 startActivityForResult(intent, REQUEST_AUDIO_CODE);
                 break;
             default:
@@ -267,23 +267,28 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
         super.onActivityResult(requestCode, resultCode, data);
         Log.i(TAG, "onActivityResult: requestCode=" + requestCode + ",resultCode=" + resultCode + ", data=" + data);
         if (resultCode == RESULT_OK) {
-            if (data != null) {
-                Uri uri = data.getData();
-                Log.i(TAG, "onActivityResult uri: " + uri);
-                if (uri != null) {
-                    if (TextUtils.isEmpty(mDestFilePath)) {
-                        mDestFilePath = MediaManager.convertUriToFilePath(mContaxt, uri);
-                        Log.i(TAG, "convertUriToFilePath uri: " + uri);
-                    }
-                    if (TextUtils.isEmpty(mDestFilePath) && FileUtil.isFileExist(mDestFilePath)) {
-                        long count = CopyFileUtil.coryFileFromUri(mContaxt, uri, mDestFilePath);
-                        Log.i(TAG, "onActivityResult copied filePath: " + mDestFilePath + " from " + uri + ", count= " + count);
-                    }
-                } else {
-                    Log.w(TAG, "onActivityResult Intent.data is null !! ");
-                }
+            if (!FileUtil.isFileExist(mDestFilePath) && data != null) {
+                //文件没有保存到指定目录，可以尝试解析data中的uri
+                fixReturnData(data);
             }
             initListDataAsync();
+        }
+    }
+
+    void fixReturnData(Intent data) {
+        Uri uri = data.getData();
+        Log.i(TAG, "onActivityResult uri: " + uri);
+        if (uri != null) {
+            if (TextUtils.isEmpty(mDestFilePath)) {
+                mDestFilePath = MediaManager.convertUriToFilePath(mContaxt, uri);
+                Log.i(TAG, "convertUriToFilePath uri: " + uri);
+            }
+            if (TextUtils.isEmpty(mDestFilePath) && FileUtil.isFileExist(mDestFilePath)) {
+                long count = CopyFileUtil.coryFileFromUri(mContaxt, uri, mDestFilePath);
+                Log.i(TAG, "onActivityResult copied filePath: " + mDestFilePath + " from " + uri + ", count= " + count);
+            }
+        } else {
+            Log.w(TAG, "onActivityResult Intent.data is null !! ");
         }
     }
 
