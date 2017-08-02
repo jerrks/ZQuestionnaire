@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.questionnaire.Conf;
 import com.questionnaire.R;
 import com.questionnaire.content.MediaInfoItem;
+import com.questionnaire.content.MediaManager;
 
 import java.util.List;
 
@@ -28,9 +29,10 @@ public class AdapterMedia extends AbsListAdapter<MediaInfoItem> {
 		if(view ==  null){
 			view = LayoutInflater.from(getContext()).inflate(R.layout.media_list_adapter, null);
 			holder = new HolderItem();
-			holder.name = (TextView) view.findViewById(R.id.name);
-			holder.date = (TextView) view.findViewById(R.id.date);
-			holder.description = (TextView) view.findViewById(R.id.descriprion);
+			holder.name = (TextView) view.findViewById(R.id.name_tv);
+			holder.date = (TextView) view.findViewById(R.id.date_tv);
+			holder.sizeTv = (TextView) view.findViewById(R.id.size_tv);
+			holder.description = (TextView) view.findViewById(R.id.description_tv);
 			holder.thumbnailView = (ImageView) view.findViewById(R.id.thumbnail_view);
 			view.setTag(holder);
 		} else {
@@ -43,7 +45,8 @@ public class AdapterMedia extends AbsListAdapter<MediaInfoItem> {
 			holder.name.setText(item.getName());
 			holder.description.setText(item.getDescription());
 			String time = Conf.formatTime(item.getDate());
-			holder.date.setText(formateString(R.string.paper_create_time, time));
+			holder.date.setText(formateString(R.string.time_context, time));
+			holder.sizeTv.setText(item.getFileSise());
 			holder.thumbnailView.setImageBitmap(item.getThumbnail());
 		}
 		return view;
@@ -55,7 +58,7 @@ public class AdapterMedia extends AbsListAdapter<MediaInfoItem> {
 	}
 
 	class HolderItem{
-		TextView name, date, description;
+		TextView name, date, sizeTv, description;
 		ImageView thumbnailView;
 	}
 

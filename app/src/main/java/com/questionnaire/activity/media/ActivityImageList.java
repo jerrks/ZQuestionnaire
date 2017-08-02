@@ -41,12 +41,11 @@ public class ActivityImageList extends ActivityMediaListBase {
 
     @Override
     protected void addMedia() {
-        String filePath = MediaManager.getImagePath();
-        CameraManager.startCameraForImage(ActivityImageList.this, filePath, REQUEST_IMAGE_CODE);
+        startAddMedia(REQUEST_IMAGE_CODE, MediaManager.getImagePath());
     }
 
     @Override
-    protected void performItemClick(MediaInfoItem item) {
+    protected void prrviewMedia(MediaInfoItem item) {
         String filePath = item.getFilePath();
         MediaManager.previewImage(this, filePath);
     }

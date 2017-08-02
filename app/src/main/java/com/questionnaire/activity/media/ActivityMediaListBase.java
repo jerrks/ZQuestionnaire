@@ -4,13 +4,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -21,9 +20,12 @@ import android.widget.TextView;
 import com.questionnaire.R;
 import com.questionnaire.activity.ActivityBase;
 import com.questionnaire.adapter.AdapterMedia;
+import com.questionnaire.content.CameraManager;
 import com.questionnaire.content.LoadDataTask;
 import com.questionnaire.content.MediaInfoItem;
 import com.questionnaire.content.MediaManager;
+import com.questionnaire.utils.CopyFileUtil;
+import com.questionnaire.utils.FileUtil;
 import com.questionnaire.utils.ToastUtils;
 
 import java.io.File;
@@ -54,6 +56,7 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
     public int mLongClickItemPosition = 0;
 
     public Context mContaxt;
+    String mDestFilePath;//新建文件目标路径
 
     public Handler mHandler = new Handler() {
         @Override
@@ -93,9 +96,9 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
         intHeaderViews();
 
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar_hor);
-        TextView bootumBtn = (TextView) findViewById(R.id.media_add_tv);
-        bootumBtn.setText(getBottomText());
-        bootumBtn.setOnClickListener(this);
+        //TextView bootumBtn = (TextView) findViewById(R.id.media_add_tv);
+        //bootumBtn.setText(getBottomText());
+        //bootumBtn.setOnClickListener(this);
 
         mListView = (ListView) findViewById(R.id.media_list_view);
         mAdapter = new AdapterMedia(mContaxt, mDataSet);
@@ -105,8 +108,8 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 MediaInfoItem item = mDataSet.get(position);
                 String filePath = item.getFilePath();
-                if (MediaManager.isFileExists(filePath)) {
-                    performItemClick(item);
+                if (FileUtil.isFileExist(filePath)) {
+                    prrviewMedia(item);
                 } else {
                     Log.e(TAG, "onItemClick failed, not exists file: " + filePath);
                     ToastUtils.show(mContaxt, formateString(R.string.file_not_exists, filePath));
@@ -121,33 +124,7 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
                 return true;
             }
         });
-        /*mListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-            @Override
-            public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
-                final AdapterView.AdapterContextMenuInfo info;
-                try {
-                    info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-                } catch (ClassCastException e) {
-                    Log.e(TAG, "CreateContextMenu bad menuInfo: " + menuInfo);
-                    return;
-                }
-                mLongClickItemPosition = info.position;
-                menu.add(Menu.NONE, MENU_DELETE, Menu.NONE, R.string.delete);
-            }
-        });*/
     }
-
-    /*@Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case MENU_DELETE:
-                deleteItem(mLongClickItemPosition);
-                break;
-            default:
-                break;
-        }
-        return true;
-    }*/
 
     void showLongClickDialog(final int position) {
         new AlertDialog.Builder(ActivityMediaListBase.this)
@@ -209,9 +186,9 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
             case R.id.title_right:
                 addMedia();
                 break;
-            case R.id.media_add_tv:
-                addMedia();
-                break;
+            //case R.id.media_add_tv:
+            //   addMedia();
+             //   break;
             default:
                 break;
         }
@@ -226,7 +203,7 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
         LoadDataTask task = new LoadDataTask(mediaType, new LoadDataTask.LoadDataCallback() {
             @Override
             public void onLoadProgress(int progress, String filePath) {
-                Log.i(TAG, "Loaded progress= " + progress + ", filePath: " + filePath);
+                //Log.i(TAG, "Loaded progress= " + progress + ", filePath: " + filePath);
                 updateLoadProgress(progress);
             }
 
@@ -262,31 +239,62 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
         mAdapter.notifyDataSetChanged();
     }
 
+    protected void startAddMedia(int requestCode, String destFilePath) {
+        mDestFilePath = destFilePath;
+        switch (requestCode) {
+            case REQUEST_IMAGE_CODE:
+                CameraManager.startCameraForImage(this, destFilePath, REQUEST_IMAGE_CODE);
+                break;
+            case REQUEST_VIDEO_CODE:
+                CameraManager.startCameraForVideo(this, destFilePath, REQUEST_VIDEO_CODE);
+                break;
+            case REQUEST_AUDIO_CODE:
+                //to do record audio
+                break;
+            default:
+                break;
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.i(TAG, "onActivityResult: requestCode=" + requestCode + ",resultCode=" + resultCode + ", data=" + data);
         if (resultCode == RESULT_OK) {
+            if (data != null) {
+                Uri uri = data.getData();
+                Log.i(TAG, "onActivityResult uri: " + uri);
+                if (uri != null) {
+                    if (TextUtils.isEmpty(mDestFilePath)) {
+                        mDestFilePath = MediaManager.convertUriToFilePath(mContaxt, uri);
+                        Log.i(TAG, "convertUriToFilePath uri: " + uri);
+                    }
+                    if (TextUtils.isEmpty(mDestFilePath) && FileUtil.isFileExist(mDestFilePath)) {
+                        long count = CopyFileUtil.coryFileFromUri(mContaxt, uri, mDestFilePath);
+                        Log.i(TAG, "onActivityResult copied filePath: " + mDestFilePath + " from " + uri + ", count= " + count);
+                    }
+                } else {
+                    Log.w(TAG, "onActivityResult Intent.data is null !! ");
+                }
+            }
             initListDataAsync();
         }
     }
 
     protected String formateString(int resId, Object arg){
         return String.format(mContaxt.getString(resId), arg);
-
     }
 
-    protected  abstract String getMediaType();
+    protected abstract String getMediaType();
 
-    protected  abstract String getTitleText();
+    protected abstract String getTitleText();
 
-    protected  abstract String getBottomText();
+    protected abstract void addMedia();
 
-    /**
-     * 开始录制音频文件，保存在自己的目录下
-     */
-    protected void addMedia() {
+    protected String getBottomText() {
+        return null;
     }
 
-    protected void performItemClick(MediaInfoItem item) {
+    protected void prrviewMedia(MediaInfoItem item) {
     }
 }

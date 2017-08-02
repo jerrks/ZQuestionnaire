@@ -1,7 +1,6 @@
 package com.questionnaire.content;
 
 import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
 
 import java.io.File;
 
@@ -14,7 +13,8 @@ public class MediaInfoItem {
     String name;
     String mediaType;//one of MediaManager.TYPE_*
     long date;
-    long fileSise;
+    long length;
+    String fileSise;
     String filePath;
     String description;
     Bitmap thumbnail;
@@ -47,12 +47,20 @@ public class MediaInfoItem {
         this.date = date;
     }
 
-    public long getFileSise() {
-        return fileSise;
+    public void setFileSise(String fileSise) {
+        this.fileSise = fileSise;
     }
 
-    public void setFileSise(long fileAise) {
-        this.fileSise = fileAise;
+    public String getFileSise() {
+        return this.fileSise;
+    }
+
+    public long getLength() {
+        return length;
+    }
+
+    public void setLength(long length) {
+        this.length = length;
     }
 
     public String getFilePath() {
@@ -94,11 +102,12 @@ public class MediaInfoItem {
         MediaInfoItem it = new MediaInfoItem(mediaType);
         it.name = file.getName();
         it.name = file.getName();
-        it.fileSise = file.length();
+        it.length = file.length();
+        it.fileSise = MediaManager.formatFileSize(it.length);
         it.date = file.lastModified();
         it.filePath = file.getPath();
         it.description = file.getAbsolutePath();
-        it.thumbnail = MediaManager.getThumbnail(it.filePath, mediaType);
+        it.thumbnail = MediaManager.extractThumbnail(it.filePath, mediaType);
         return it;
     }
 

@@ -33,12 +33,6 @@ public class ActivityAudioList extends ActivityMediaListBase{
 
     @Override
     protected void addMedia() {
-        addAudio();
-    }
-
-    /**
-     * 开始录制音频文件，保存在自己的目录下
-     */
-    void addAudio() {
+        startAddMedia(REQUEST_AUDIO_CODE, MediaManager.getAudioPath());
     }
 }

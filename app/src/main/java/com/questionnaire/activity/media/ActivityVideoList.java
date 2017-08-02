@@ -41,12 +41,11 @@ public class ActivityVideoList extends ActivityMediaListBase {
 
     @Override
     protected void addMedia() {
-        String filePath = MediaManager.getImagePath();
-        CameraManager.startCameraForVideo(ActivityVideoList.this, filePath, REQUEST_VIDEO_CODE);
+        startAddMedia(REQUEST_VIDEO_CODE, MediaManager.getVideoPath());
     }
 
     @Override
-    protected void performItemClick(MediaInfoItem item) {
+    protected void prrviewMedia(MediaInfoItem item) {
         MediaManager.previewVideo(getApplicationContext(), item.getFilePath());
     }
 }

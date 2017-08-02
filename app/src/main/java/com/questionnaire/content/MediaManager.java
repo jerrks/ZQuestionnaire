@@ -15,8 +15,10 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.questionnaire.utils.DateTimeUtil;
+import com.questionnaire.utils.FileUtil;
 
 import java.io.File;
+import java.text.DecimalFormat;
 
 /**
  * 多媒体管理类
@@ -26,7 +28,10 @@ import java.io.File;
 public class MediaManager {
     public static final String TAG = "Naire";
 
-    public static final String ROOT_DIR = "/questionnaire/media/";
+    public static final String MEDIA_DIR = "/questionnaire/media/";
+
+    public static final int SIZE_KB = 1024;
+    public static final int SIZE_MB = SIZE_KB * 1024;
 
     public static final String TYPE_IMAGE = "image";
     public static final String TYPE_VIDEO = "video";
@@ -41,8 +46,17 @@ public class MediaManager {
         return Environment.getExternalStorageDirectory().getAbsolutePath();
     }
 
+    public static String getMediaDir() {
+        File dir = new File(getSDcardRootDir() + MEDIA_DIR);
+        if (!dir.exists()) {
+            boolean mkDir = dir.mkdirs();
+            if(!mkDir) Log.e(TAG, "Make dir failed: " + dir);
+        }
+        return dir.getAbsolutePath() + "/";
+    }
+
     public static String getMediaDir(String mediaType) {
-        File dir = new File(getSDcardRootDir() + ROOT_DIR + mediaType + "/");
+        File dir = new File(getSDcardRootDir() + MEDIA_DIR + mediaType + "/");
         if (!dir.exists()) {
             boolean mkDir = dir.mkdirs();
            if(!mkDir) Log.e(TAG, "Make dir failed: " + dir);
@@ -91,6 +105,21 @@ public class MediaManager {
         return "";
     }
 
+    public static String formatFileSize(long fileSize) {
+        if (fileSize > SIZE_MB) {
+            float tmp = (float) fileSize / SIZE_MB;
+            return formatDecimal(tmp) + "Mb";
+        } else {
+            float tmp = (float) fileSize / SIZE_KB;
+            return formatDecimal(tmp) + "Kb";
+        }
+    }
+
+    public static String formatDecimal(double decimal) {
+        DecimalFormat df = new DecimalFormat("#,#0.0#");
+        return df.format(decimal);
+    }
+
     /**
      * 调用系统录音机，但是据说不能保存到指定目录，而是直接保存在系统录音机目录下
      *
@@ -130,25 +159,25 @@ public class MediaManager {
     }
 
     /**
-     * 由uri转化为系统文件路径
+     * 由uri转化为系统文件路径, 文件路径存在MediaStore.MediaColumns.DATA字段
      * @param context
      * @param uri
      * @return
      */
-    public static String getAbsolutePath(final Context context, final Uri uri) {
+    public static String convertUriToFilePath(final Context context, final Uri uri) {
         if (null == uri) return null;
         final String scheme = uri.getScheme();
         String filePath = null;
         if (scheme == null)
             filePath = uri.getPath();
         else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
-            filePath = uri.getPath();
-        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
+            filePath = uri.getPath();//"file://path"
+        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {//"file://authority/path"
             Cursor cursor = context.getContentResolver().query(uri,
-                    new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
+                    new String[]{MediaStore.MediaColumns.DATA}, null, null, null);
             if (null != cursor) {
                 if (cursor.moveToFirst()) {
-                    int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                    int index = cursor.getColumnIndex(MediaStore.MediaColumns.DATA);
                     if (index > -1) {
                         filePath = cursor.getString(index);
                     }
@@ -160,13 +189,13 @@ public class MediaManager {
     }
 
     /**
-     * 获取图片和视频的缩略图
+     * 提取图片和视频的缩略图
      * @param filePath
      * @param mediaType  TYPE_IMAGE or TYPE_VIDEO
      * @return
      */
-    public static Bitmap getThumbnail(String filePath, String mediaType) {
-        if (!isFileExists(filePath)) {
+    public static Bitmap extractThumbnail(String filePath, String mediaType) {
+        if (!FileUtil.isFileExist(filePath)) {
             Log.e(TAG, mediaType + " >> get Thumbnail failed: file is not exists or not a file: " + filePath);
             return null;
         }
@@ -177,7 +206,7 @@ public class MediaManager {
             thumbnail = createVideoThumbnail(filePath);//获取最大的一帧
             //thumbnail = getVideoFrameAtTime(filePath);
         }
-        Log.i(TAG, mediaType + " >> " + thumbnail + ", from file: " + filePath);
+        //Log.v(TAG, mediaType + " >> " + thumbnail + ", from file: " + filePath);
         return thumbnail;
     }
 
@@ -219,19 +248,5 @@ public class MediaManager {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(filePath);
         return retriever.getFrameAtTime(timeUs, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
-    }
-
-    /**
-     * 文件是否存在
-     * @param filePath
-     * @return
-     */
-    public static boolean isFileExists(String filePath) {
-        File file = new File(filePath);
-        if (file.exists() && file.isFile()) {
-            Log.e(TAG, "getVideoFrameAtTime failed for invalid file: " + filePath);
-            return true;
-        }
-        return false;
     }
 }
