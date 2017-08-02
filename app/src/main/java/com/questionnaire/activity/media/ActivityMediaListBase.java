@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -214,6 +215,7 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
                 updateDataSetAsync(dataSet);
             }
         });
+        task.setThumbnail(getItemThumbnail());
         task.execute(dir);
     }
 
@@ -251,7 +253,7 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
                 break;
             case REQUEST_AUDIO_CODE:
                 //to do record audio
-                Intent intent = new Intent(mContaxt, ActivityAudioCreate.class);
+                Intent intent = new Intent(mContaxt, ActivityAudioRecord.class);
                 intent.putExtra("filePath", destFilePath);
                 startActivityForResult(intent, REQUEST_AUDIO_CODE);
                 break;
@@ -296,6 +298,10 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
     protected abstract void addMedia();
 
     protected String getBottomText() {
+        return null;
+    }
+
+    protected Bitmap getItemThumbnail() {
         return null;
     }
 

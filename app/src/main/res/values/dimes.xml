@@ -17,5 +17,5 @@
     <dimen name="text_medium">16dip</dimen>
     <dimen name="text_min">13dip</dimen>
     <dimen name="tab_item_heigth">50dip</dimen>
-    <dimen name="record_button_margin">15dp</dimen>
+    <dimen name="record_button_margin">8dp</dimen>
 </resources>

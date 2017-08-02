@@ -3,5 +3,5 @@
     android:id="@+id/myCheckedTextView1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:textColor="@color/black"
+    android:textColor="@color/main_text_color"
     android:padding="@dimen/padding_medium"/>

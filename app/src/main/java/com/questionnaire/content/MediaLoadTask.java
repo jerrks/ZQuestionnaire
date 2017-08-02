@@ -1,11 +1,9 @@
 package com.questionnaire.content;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import com.questionnaire.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,12 +23,17 @@ public class MediaLoadTask extends AsyncTask<String, Integer, List<MediaInfoItem
 
     Context context;
     String mediaType;
+    Bitmap thumbnail;
     MediaLoadCallback callback;
 
     public MediaLoadTask(Context context, String mediaType, MediaLoadCallback callback) {
         this.context = context;
         this.mediaType = mediaType;
         this.callback = callback;
+    }
+
+    public void setThumbnail(Bitmap thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     @Override
@@ -42,15 +45,15 @@ public class MediaLoadTask extends AsyncTask<String, Integer, List<MediaInfoItem
         if (list != null && list.length > 0) {
             int count = list.length;
             int progress = 0;
-            for (int i = 0; i < count; i++) {
+            for (int i = count - 1; i >= 0; i--) {
                 File file = list[i];
                 MediaInfoItem item = MediaInfoItem.fromFile(file, mediaType);
                 if (MediaManager.TYPE_AUDIO.equals(mediaType)) {
-                    item.setThumbnail(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_audio_record));
+                    item.setThumbnail(thumbnail);
                 }
                 dataSet.add(item);
                 if (callback != null) {
-                    progress = (i + 1) * 100 / count;
+                    progress = (count - i) * 100 / count;
                     callback.onLoadProgress(progress, file.getPath());
                 }
             }

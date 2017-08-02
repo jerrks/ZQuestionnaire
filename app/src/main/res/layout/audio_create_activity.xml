@@ -25,10 +25,8 @@
             android:id="@+id/info_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="30dp"
-            android:gravity="center"
-            android:textColor="@color/red"
-            android:text=""/>
+            android:padding="@dimen/padding_max"
+            android:textColor="@color/red"/>
 
         <View
             android:layout_width="match_parent"
@@ -40,39 +38,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="@dimen/padding_medium">
 
-            <ImageButton
+            <Button
                 android:id="@+id/record_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/record_button_margin"
                 android:layout_weight="1"
-                android:src="@drawable/media_audio_record_bg" />
+                android:text="@string/start" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/stop_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/record_button_margin"
                 android:layout_weight="1"
-                android:src="@drawable/media_audio_stop_bg" />
+                android:text="@string/stop" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/play_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/record_button_margin"
                 android:layout_weight="1"
-                android:src="@drawable/media_audio_play_bg" />
+                android:text="@string/play" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/delete_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/record_button_margin"
                 android:layout_weight="1"
-                android:src="@drawable/ic_menu_trash_holo_light" />
+                android:text="@string/delete" />
         </LinearLayout>
     </LinearLayout>
 

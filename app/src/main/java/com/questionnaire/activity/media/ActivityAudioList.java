@@ -1,5 +1,7 @@
 package com.questionnaire.activity.media;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.questionnaire.R;
@@ -30,6 +32,11 @@ public class ActivityAudioList extends ActivityMediaListBase{
     @Override
     protected String getBottomText() {
         return getString(R.string.record_audio_add);
+    }
+
+    @Override
+    protected Bitmap getItemThumbnail() {
+        return BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio_record);
     }
 
     @Override

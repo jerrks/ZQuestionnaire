@@ -142,7 +142,7 @@
             android:screenOrientation="portrait"
             android:launchMode="singleTop"/>
         <activity
-            android:name=".activity.media.ActivityAudioCreate"
+            android:name=".activity.media.ActivityAudioRecord"
             android:configChanges="touchscreen|navigation|orientation"
             android:screenOrientation="portrait" />
         

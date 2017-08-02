@@ -31,14 +31,14 @@ import com.questionnaire.utils.ToastUtils;
 /**
  * Created by zhanghao on 2017/8/2.
  */
-public class ActivityAudioCreate extends ActivityBase implements View.OnClickListener {
-    public static final String TAG = MediaManager.TAG + ".AudioCreate";
+public class ActivityAudioRecord extends ActivityBase implements View.OnClickListener {
+    public static final String TAG = MediaManager.TAG + ".AudioRecord";
 
     private Context mContext;
-    private ImageButton mRecordBtn;
-    private ImageButton mStopBtn;
-    private ImageButton mPlayBtn;
-    private ImageButton mDeleteBtn;
+    private Button mRecordBtn;
+    private Button mStopBtn;
+    private Button mPlayBtn;
+    private Button mDeleteBtn;
 
     private ListView mListView;
     private TextView mInfoTv;
@@ -63,10 +63,10 @@ public class ActivityAudioCreate extends ActivityBase implements View.OnClickLis
         setContentView(R.layout.audio_create_activity);
         intHeaderViews();
         //主要是4个控制按钮(录制,停止,播放,删除)
-        mRecordBtn = (ImageButton) findViewById(R.id.record_btn);
-        mStopBtn = (ImageButton) findViewById(R.id.stop_btn);
-        mPlayBtn = (ImageButton) findViewById(R.id.play_btn);
-        mDeleteBtn = (ImageButton) findViewById(R.id.delete_btn);
+        mRecordBtn = (Button) findViewById(R.id.record_btn);
+        mStopBtn = (Button) findViewById(R.id.stop_btn);
+        mPlayBtn = (Button) findViewById(R.id.play_btn);
+        mDeleteBtn = (Button) findViewById(R.id.delete_btn);
         //列表出指定文件夹中所有amr格式音频文件
         mListView = (ListView) findViewById(R.id.audio_list_view);
         mInfoTv = (TextView) findViewById(R.id.info_tv);
@@ -146,22 +146,24 @@ public class ActivityAudioCreate extends ActivityBase implements View.OnClickLis
 
     void startRecord() {
         if (!sdCardExit) {
-            ToastUtils.show(ActivityAudioCreate.this, R.string.sdcard_unmounted);
+            ToastUtils.show(ActivityAudioRecord.this, R.string.sdcard_unmounted);
             return;
         }
         try {
+            stopMediaRecorder();//release at first
             mMediaRecorder01 = new MediaRecorder();
             mMediaRecorder01.setAudioSource(MediaRecorder.AudioSource.MIC);/* 设置录音来源为麦克风 */
             mMediaRecorder01.setOutputFormat(MediaRecorder.OutputFormat.AMR_WB);//可用DEFAULT
             mMediaRecorder01.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB);//可用DEFAULT
             mMediaRecorder01.setOutputFile(myRecAudioFile.getAbsolutePath());//文件保存位置
 
-            startTimer();//计时
             mMediaRecorder01.prepare();
             mMediaRecorder01.start();
 
-            mInfoTv.setText(R.string.audio_recording);
+            mInfoTv.setText(getString(R.string.audio_recording, "......"));
+            startTimer();//计时
 
+            mRecordBtn.setEnabled(false);
             mStopBtn.setEnabled(true);
             mPlayBtn.setEnabled(false);
             mDeleteBtn.setEnabled(false);
@@ -172,19 +174,25 @@ public class ActivityAudioCreate extends ActivityBase implements View.OnClickLis
         }
     }
 
-    void stopRecord() {
-
-        if (myRecAudioFile != null) {
+    void stopMediaRecorder() {
+        if (mMediaRecorder01 != null) {
             mMediaRecorder01.stop();
             mMediaRecorder01.release();
-
             mMediaRecorder01 = null;
+        }
+    }
 
+    void stopRecord() {
+        if (myRecAudioFile != null) {
+            stopMediaRecorder();
+            stopTimerIfNeed();
+            //update UI
             adapter.add(myRecAudioFile.getName());
             mInfoTv.setText(getString(R.string.audio_record_stop, myRecAudioFile.getName()));
             mStopBtn.setEnabled(false);
             mPlayBtn.setEnabled(true);
             mDeleteBtn.setEnabled(true);
+            mRecordBtn.setEnabled(true);
 
             isStopRecord = true;
         }
@@ -241,7 +249,7 @@ public class ActivityAudioCreate extends ActivityBase implements View.OnClickLis
         if (sdCardExit) {
             File files[] = myRecAudioDir.listFiles();
             if (files != null) {
-                for (int i = 0; i < files.length; i++) {
+                for (int i = files.length -1; i >= 0; i--) {
                     if (files[i].getName().indexOf(".") >= 0) {
                         String fileS = files[i].getName().substring(
                                 files[i].getName().indexOf("."));
@@ -255,18 +263,19 @@ public class ActivityAudioCreate extends ActivityBase implements View.OnClickLis
 
     private class MyTimer {
         public static final int COUNT_TIME_CODE = 0x1;
-        private static final int ONE_SECOND = 1 * 1000;//倒计时间隔时间
+        private static final int UPDATE_INTERVAL = 1 * 1000;//倒计时间隔时间
         private Timer mTimer = new Timer();
         private TimerTask mTimerTask = null;
         private long mStartTime = 0;
+        private long mTimeDelta = 0;
         private Handler mHandler = new Handler() {
             @Override
             public void dispatchMessage(Message msg) {
                 super.dispatchMessage(msg);
                 switch (msg.what) {
                     case COUNT_TIME_CODE:
-                        long delta = System.currentTimeMillis() - mStartTime;
-                        long seconds = delta / 1000;
+                        mTimeDelta = System.currentTimeMillis() - mStartTime;
+                        long seconds = mTimeDelta / UPDATE_INTERVAL;
                         String timeText = DateTimeUtil.formatIntervalSeconds(seconds);
                         mInfoTv.setText(mContext.getString(R.string.audio_recording, timeText));
                         break;
@@ -281,8 +290,8 @@ public class ActivityAudioCreate extends ActivityBase implements View.OnClickLis
         }
 
         public void startTimer(long startTime) {
+            Log.i(TAG, "startTimer: " + new java.util.Date(startTime).toLocaleString());
             mStartTime = startTime;
-            mInfoTv.setText(mContext.getString(R.string.audio_recording, ""));
             if (mTimerTask == null) {
                 if (mTimerTask == null) {
                     mTimerTask = new TimerTask() {
@@ -296,15 +305,16 @@ public class ActivityAudioCreate extends ActivityBase implements View.OnClickLis
             if (mTimer == null) {
                 mTimer = new Timer();
             }
-            mTimer.schedule(mTimerTask, 0, ONE_SECOND);
+            mTimer.schedule(mTimerTask, 0, UPDATE_INTERVAL);
         }
 
         public void stopTimer() {
             if (mTimerTask != null) {
                 mTimerTask.cancel();
                 mTimerTask = null;
+                Log.i(TAG, "startTimer: " + new java.util.Date(System.currentTimeMillis()).toLocaleString() + ", mTimeDelta= " + mTimeDelta);
             }
-            mStartTime = 0;
+            mStartTime = System.currentTimeMillis();
         }
     }
 }
