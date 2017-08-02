@@ -45,8 +45,7 @@ public class ActivityImageList extends ActivityMediaListBase {
     }
 
     @Override
-    protected void prrviewMedia(MediaInfoItem item) {
-        String filePath = item.getFilePath();
-        MediaManager.previewImage(this, filePath);
+    protected void previewMedia(MediaInfoItem item) {
+        MediaManager.previewImage(this, item.getFilePath());
     }
 }

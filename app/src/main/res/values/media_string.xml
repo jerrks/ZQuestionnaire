@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="add">添加</string>
     <string name="image_list">图片列表</string>
     <string name="image_add">添加图片</string>
 
-    <string name="audio_list">音频列表</string>
-    <string name="audio_add">添加音频</string>
+    <string name="record_audio_list">录音列表</string>
+    <string name="record_audio_add">添加录音</string>
+    <string name="record_audio">录音</string>
 
     <string name="video_list">视频列表</string>
     <string name="video_add">添加视频</string>
 
     <string name="sdcard_unmounted">请确认已经插入SD卡</string>
-
-    <string name="file_not_exists">文件不存在</string>
-
+    <string name="file_deleted">已删除: <xliff:g id="FILE_DELETED">%1$s</xliff:g></string>
+    <string name="audio_recording">录音中: <xliff:g id="AUDIO_RECORDING">%1$s</xliff:g></string>
+    <string name="audio_record_stop">停止: <xliff:g id="RECORD_STOP">%1$s</xliff:g></string>
+    <string name="file_cannot_open">不支持打开: <xliff:g id="CANNOT_OPEN">%1$s</xliff:g></string>
+    <string name="file_not_exists">不存在: <xliff:g id="NOT_EXISTS">%1$s</xliff:g></string>
 </resources>

@@ -1,5 +1,6 @@
 package com.questionnaire.content;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import java.io.File;

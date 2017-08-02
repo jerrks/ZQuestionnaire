@@ -3,6 +3,7 @@ package com.questionnaire.activity.media;
 import android.os.Bundle;
 
 import com.questionnaire.R;
+import com.questionnaire.content.MediaInfoItem;
 import com.questionnaire.content.MediaManager;
 
 /**
@@ -23,16 +24,21 @@ public class ActivityAudioList extends ActivityMediaListBase{
 
     @Override
     protected String getTitleText() {
-        return getString(R.string.audio_list);
+        return getString(R.string.record_audio_list);
     }
 
     @Override
     protected String getBottomText() {
-        return getString(R.string.audio_add);
+        return getString(R.string.record_audio_add);
     }
 
     @Override
     protected void addMedia() {
         startAddMedia(REQUEST_AUDIO_CODE, MediaManager.getAudioPath());
+    }
+
+    @Override
+    protected void previewMedia(MediaInfoItem item) {
+        MediaManager.previewAudio(mContaxt, item.getFilePath());
     }
 }

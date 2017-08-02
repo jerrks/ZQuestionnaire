@@ -45,7 +45,7 @@ public class ActivityVideoList extends ActivityMediaListBase {
     }
 
     @Override
-    protected void prrviewMedia(MediaInfoItem item) {
+    protected void previewMedia(MediaInfoItem item) {
         MediaManager.previewVideo(getApplicationContext(), item.getFilePath());
     }
 }

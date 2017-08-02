@@ -21,7 +21,7 @@ import com.questionnaire.R;
 import com.questionnaire.activity.ActivityBase;
 import com.questionnaire.adapter.AdapterMedia;
 import com.questionnaire.content.CameraManager;
-import com.questionnaire.content.LoadDataTask;
+import com.questionnaire.content.MediaLoadTask;
 import com.questionnaire.content.MediaInfoItem;
 import com.questionnaire.content.MediaManager;
 import com.questionnaire.utils.CopyFileUtil;
@@ -38,7 +38,7 @@ import java.util.List;
 
 public abstract class ActivityMediaListBase extends ActivityBase implements View.OnClickListener {
 
-    public static final String TAG = MediaManager.TAG + ".Activity";
+    public static final String TAG = MediaManager.TAG + ".MediaList";
 
     public static final int REQUEST_IMAGE_CODE = 0x01;
     public static final int REQUEST_VIDEO_CODE = 0x02;
@@ -53,7 +53,7 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
     ProgressBar mProgressBar;
     public AdapterMedia mAdapter;
     public List<MediaInfoItem> mDataSet = new ArrayList<MediaInfoItem>();
-    public int mLongClickItemPosition = 0;
+    public int mLongClickPosition = 0;
 
     public Context mContaxt;
     String mDestFilePath;//新建文件目标路径
@@ -109,17 +109,18 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
                 MediaInfoItem item = mDataSet.get(position);
                 String filePath = item.getFilePath();
                 if (FileUtil.isFileExist(filePath)) {
-                    prrviewMedia(item);
+                    //previewMedia(item);
+                    MediaManager.previewFile(mContaxt, filePath);
                 } else {
-                    Log.e(TAG, "onItemClick failed, not exists file: " + filePath);
-                    ToastUtils.show(mContaxt, formateString(R.string.file_not_exists, filePath));
+                    Log.e(TAG, "onItemClick: not exists file: " + filePath);
+                    ToastUtils.show(mContaxt, getString(R.string.file_not_exists, filePath));
                 }
             }
         });
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-                mLongClickItemPosition = position;
+                mLongClickPosition = position;
                 showLongClickDialog(position);
                 return true;
             }
@@ -200,7 +201,7 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
     protected void initListDataAsync() {
         String mediaType = getMediaType();
         final String dir = MediaManager.getMediaDir(mediaType);
-        LoadDataTask task = new LoadDataTask(mediaType, new LoadDataTask.LoadDataCallback() {
+        MediaLoadTask task = new MediaLoadTask(mContaxt, mediaType, new MediaLoadTask.MediaLoadCallback() {
             @Override
             public void onLoadProgress(int progress, String filePath) {
                 //Log.i(TAG, "Loaded progress= " + progress + ", filePath: " + filePath);
@@ -250,6 +251,9 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
                 break;
             case REQUEST_AUDIO_CODE:
                 //to do record audio
+                Intent intent = new Intent(mContaxt, ActivityAudioCreate.class);
+                intent.putExtra("filePath", destFilePath);
+                startActivityForResult(intent, REQUEST_AUDIO_CODE);
                 break;
             default:
                 break;
@@ -295,6 +299,6 @@ public abstract class ActivityMediaListBase extends ActivityBase implements View
         return null;
     }
 
-    protected void prrviewMedia(MediaInfoItem item) {
+    protected void previewMedia(MediaInfoItem item) {
     }
 }

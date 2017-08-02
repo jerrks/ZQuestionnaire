@@ -14,8 +14,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.questionnaire.R;
 import com.questionnaire.utils.DateTimeUtil;
 import com.questionnaire.utils.FileUtil;
+import com.questionnaire.utils.ToastUtils;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -148,6 +150,45 @@ public class MediaManager {
         intent.setDataAndType(uri, "video/*");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+    }
+
+    public static void previewFile(Context context, String filePath) {
+        if (!FileUtil.isFileExist(filePath)) {
+            Log.e(TAG, "previewFile failed for not exist: " + filePath);
+            ToastUtils.show(context, context.getString(R.string.file_not_exists, filePath));
+            return;
+        }
+        File file = new File(filePath);
+        String type = getMIMEType(file);
+        if (type == null) {
+            Log.e(TAG, "previewFile failed for not exist: " + filePath);
+            ToastUtils.show(context, context.getString(R.string.file_cannot_open, filePath));
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.fromFile(file);
+        intent.setDataAndType(uri, type);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    public static String getMIMEType(File file) {
+        String end = file.getName().substring(file.getName().lastIndexOf(".") + 1,
+                file.getName().length()).toLowerCase();
+        String type = null;
+        if (end != null) {
+            if (end.equals("amr") || end.equals("mp3") || end.equals("aac")) {
+                type = "audio";
+            } else if (end.equals("jpg") || end.equals("png") || end.equals("jpeg") || end.equals("gif")) {
+                type = "image";
+            } else if (end.equals("3gp") || end.equals("mp4") || end.equals("mpeg")) {
+                type = "video";
+            } else {
+                type = "*";
+            }
+            type += "/*";
+        }
+        return type;
     }
 
     public static void previewAudio(Context context, String filePath) {

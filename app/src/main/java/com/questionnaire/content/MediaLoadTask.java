@@ -1,7 +1,11 @@
 package com.questionnaire.content;
 
+import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.questionnaire.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -11,18 +15,20 @@ import java.util.List;
  * Created by zhanghao on 2017/7/31.
  */
 
-public class LoadDataTask extends AsyncTask<String, Integer, List<MediaInfoItem>> {
+public class MediaLoadTask extends AsyncTask<String, Integer, List<MediaInfoItem>> {
 
     public static final String TAG = MediaManager.TAG + ".LoadDataTask";
-    public interface LoadDataCallback {
+    public interface MediaLoadCallback {
         void onLoadProgress(int progress, String filePath);
         void onLoadFinished(int count, List<MediaInfoItem> dataSet);
     }
 
+    Context context;
     String mediaType;
-    LoadDataCallback callback;
+    MediaLoadCallback callback;
 
-    public LoadDataTask(String mediaType, LoadDataCallback callback) {
+    public MediaLoadTask(Context context, String mediaType, MediaLoadCallback callback) {
+        this.context = context;
         this.mediaType = mediaType;
         this.callback = callback;
     }
@@ -38,7 +44,11 @@ public class LoadDataTask extends AsyncTask<String, Integer, List<MediaInfoItem>
             int progress = 0;
             for (int i = 0; i < count; i++) {
                 File file = list[i];
-                dataSet.add(MediaInfoItem.fromFile(file, mediaType));
+                MediaInfoItem item = MediaInfoItem.fromFile(file, mediaType);
+                if (MediaManager.TYPE_AUDIO.equals(mediaType)) {
+                    item.setThumbnail(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_audio_record));
+                }
+                dataSet.add(item);
                 if (callback != null) {
                     progress = (i + 1) * 100 / count;
                     callback.onLoadProgress(progress, file.getPath());
