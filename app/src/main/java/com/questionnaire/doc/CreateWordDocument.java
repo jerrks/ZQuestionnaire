@@ -35,6 +35,9 @@ public class CreateWordDocument implements ICreateDocument {
         try {
             File dir = new File(dirPath);
             if(!dir.exists()) dir.mkdirs();
+
+            createFileFromAssets(context,dirPath,"temp.doc","temp.doc");
+
             temp = new File(dir,"temp.doc");
 
             if(!temp.exists()) temp.createNewFile();
@@ -77,12 +80,12 @@ public class CreateWordDocument implements ICreateDocument {
     }
 
     void writePager(Context context,Range r,Paper m){
-        writeData(r, null,m.getName(),"\n\n"); // pager title
+        writeData(r, null,m.getName(),"\r\n\r\n"); // pager title
         writeData(r, context.getString(R.string.paper_author,""),m.getAuthor(),"\t\t\t"); // author name
         writeData(r, context.getString(R.string.paper_create_time,""),
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(m.getDate())).toString(),"\n\n"); // create date
-        writeData(r, context.getString(R.string.paper_description,""),m.getDescription(),"\n\n"); // paper descriptions
-        writeData(r, context.getString(R.string.paper_marks,""),m.getMarkes(),"\n"); // markes
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(m.getDate())).toString(),"\r\n\r\n"); // create date
+        writeData(r, context.getString(R.string.paper_description,""),m.getDescription(),"\r\n\r\n"); // paper descriptions
+        writeData(r, context.getString(R.string.paper_marks,""),m.getMarkes(),"\r\n"); // markes
 
         List<Subject> subjects = Dao.getDaoSubject().getAll(m.getId());
         if(subjects==null && subjects.isEmpty()) return;
@@ -96,7 +99,7 @@ public class CreateWordDocument implements ICreateDocument {
 
     void writeSubject(int index,Subject m,Range r){
 
-        writeData(r,"\n"+index+". ",m.getTopic(),"\n"); // write subject name
+        writeData(r,"\r\n"+index+". ",m.getTopic(),"\r\n"); // write subject name
 
         String[] options = m.getOptions();      // write subject options
         if(options==null || options.length<1) return;
@@ -117,7 +120,7 @@ public class CreateWordDocument implements ICreateDocument {
                 break;
         }
         for(String op : options){
-            writeData(r,String.format(label,OPTION_LABELS[index]),op,"\n");
+            writeData(r,String.format(label,OPTION_LABELS[index]),op,"\r\n");
             index ++;
         }
     }
@@ -127,6 +130,24 @@ public class CreateWordDocument implements ICreateDocument {
             if(!TextUtils.isEmpty(pref)) r.insertAfter(pref);
             r.insertAfter(value);
             if(!TextUtils.isEmpty(end)) r.insertAfter(end);
+        }
+    }
+
+    void createFileFromAssets(Context context,String dir, String name,String assetsFileName){
+        try{
+            InputStream is = context.getAssets().open(assetsFileName);
+            File f = new File(dir,name);
+            OutputStream os = new FileOutputStream(f);
+            byte[] buff = new byte[1024];
+            int count;
+            while ((count = is.read(buff)) > 0){
+                os.write(buff,0,count);
+            }
+            is.close();
+            os.flush();
+            os.close();
+        }catch (Throwable e){
+            e.printStackTrace();
         }
     }
 }
