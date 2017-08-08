@@ -7,6 +7,7 @@
         android:id="@+id/title_left"
         style="@style/head_btn"
         android:src="@drawable/ic_back"
+        android:scaleType="fitXY"
         android:layout_alignParentLeft="true" />
 
     <TextView

@@ -57,14 +57,8 @@ public class ActivityMain extends ActivityGroup
 	void initView() {
 		mGroupTab = (RadioGroup) findViewById(R.id.group_tab);
 		mGroupTab.setOnCheckedChangeListener(this);
-		IPaper<Paper> dao = Dao.getDaoPaper();
-		if(dao.getAll() == null) {
-			RadioButton create = (RadioButton) mGroupTab.findViewById(R.id.bt_paper_create);
-			create.setChecked(true);
-		} else {
-			RadioButton doing = (RadioButton) mGroupTab.findViewById(R.id.bt_paper_doing);
-			doing.setChecked(true);
-		}
+		RadioButton create = (RadioButton) mGroupTab.findViewById(R.id.bt_paper_create);
+		create.setChecked(true);
 	}
 	
 	@Override
