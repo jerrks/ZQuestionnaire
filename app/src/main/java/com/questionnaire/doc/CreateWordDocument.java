@@ -10,9 +10,7 @@ import com.questionnaire.db.impl.Dao;
 import com.questionnaire.db.interfaces.IPaper;
 
 import org.apache.poi.hwpf.HWPFDocument;
-import org.apache.poi.hwpf.usermodel.CharacterProperties;
 import org.apache.poi.hwpf.usermodel.Range;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -85,12 +83,12 @@ public class CreateWordDocument implements ICreateDocument {
     }
 
     void writePager(Context context,Range r,Paper m) throws Exception{
-        writeData(r, null,m.getName(),"\n\r\n\r"); // pager title
+        writeData(r, null,m.getName(),"\r\r"); // pager title
         writeData(r, context.getString(R.string.paper_author,""),m.getAuthor(),"\t\t\t"); // author name
         writeData(r, context.getString(R.string.paper_create_time,""),
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(m.getDate())).toString(),"\n\r\n\r"); // create date
-        writeData(r, context.getString(R.string.paper_description,""),m.getDescription(),"\n\r\n\r"); // paper descriptions
-        writeData(r, context.getString(R.string.paper_marks,""),m.getMarkes(),"\n\r"); // markes
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(m.getDate())).toString(),"\r\r"); // create date
+        writeData(r, context.getString(R.string.paper_description,""),m.getDescription(),"\r\r"); // paper descriptions
+        writeData(r, context.getString(R.string.paper_marks,""),m.getMarkes(),"\r"); // markes
 
         List<Subject> subjects = Dao.getDaoSubject().getAll(m.getId());
         if(subjects==null && subjects.isEmpty()) return;
@@ -104,7 +102,7 @@ public class CreateWordDocument implements ICreateDocument {
 
     void writeSubject(int index,Subject m,Range r) throws Exception{
 
-        writeData(r,"\n\r"+index+". ",m.getTopic(),"\n\r"); // write subject name
+        writeData(r,"\r"+index+". ",m.getTopic(),"\r"); // write subject name
 
         String[] options = m.getOptions();      // write subject options
         if(options==null || options.length<1) return;
@@ -125,13 +123,12 @@ public class CreateWordDocument implements ICreateDocument {
                 break;
         }
         for(String op : options){
-            writeData(r,String.format(label,OPTION_LABELS[index]),op,"\n\r");
+            writeData(r,String.format(label,OPTION_LABELS[index]),op,"\r");
             index ++;
         }
     }
 
     void writeData(Range r,String pref,String value,String end) throws Exception{
-        CharacterProperties properties = new CharacterProperties();
         if(!TextUtils.isEmpty(value)){
             if(!TextUtils.isEmpty(pref)) r.insertAfter(new String(pref.getBytes(),"utf-8"));
             r.insertAfter(new String(value.getBytes(),"utf-8"));
