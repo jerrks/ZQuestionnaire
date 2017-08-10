@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dip"
             android:padding="10dip"
-            android:layout_below="@id/head"
             android:layout_marginTop="@dimen/margin_max"
             android:text="@string/app_instruction"
             android:layout_centerInParent="true" />
