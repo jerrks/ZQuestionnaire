@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,6 +21,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.questionnaire.Conf;
 import com.questionnaire.R;
 import com.questionnaire.activity.ActivityBase;
+import com.questionnaire.activity.chart.PieChartActivity;
 import com.questionnaire.adapter.AbsListAdapter;
 import com.questionnaire.adapter.AdapterQuestionAnswer;
 import com.questionnaire.db.Answer;
@@ -74,6 +76,7 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 		mBack = (Button) findViewById(R.id.title_left);
 		mBack.setVisibility(View.VISIBLE);
 		mBack.setOnClickListener(this);
+		mResultLayout.setOnClickListener(this);
 	}
 	
 	void initData() {
@@ -242,6 +245,8 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 	public void onClick(View v) {
 		if(v == mBack) {
 			finish();
+		} else if (v == mResultLayout) {
+			startActivity(new Intent(this, PieChartActivity.class));
 		}
 	}
 }
