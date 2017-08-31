@@ -35,13 +35,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <LinearLayout
-                    android:id="@+id/result_layout"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-                </LinearLayout>
-
                 <include
                     android:id="@+id/detail_singlechoice"
                     layout="@layout/adapter_item_view_choice"
@@ -51,21 +44,22 @@
                     android:id="@+id/detail_multichoice"
                     layout="@layout/adapter_item_view_choice_multiple"
                     android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/result_info"
-                    style="@style/style_subject_answer_text"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
-
-                <!--
+                <com.questionnaire.view.PieChartView
+                    android:id="@+id/pie_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:visibility= "gone"/>
                 <LinearLayout
                     android:id="@+id/result_layout"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
+                <TextView
+                    android:id="@+id/result_info"
+                    style="@style/style_subject_answer_text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
                 </LinearLayout>
-                -->
             </LinearLayout>
         </ScrollView>
 
