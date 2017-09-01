@@ -93,4 +93,6 @@
     <string name="current_ver">当前版本：%s</string>
     <string name="usage_instruction">\t\tE快调查客户端软件，主要针对少数民族地区经济、文化发展状况而设计的电子调查问卷。亦适用于其他形式内容问卷、考试试题制作等，集创建 >> 调查 >> 统计结果于一体。\n\n适用于不同类型的题型：\n\n单项选择题\n多项选择题\n多项排序题\n问答题</string>
     <string name="app_instruction">本软件基于android系统开发，适用于android系统终端设备(手机，Pad平板 )，实现电子问卷调查，欢迎下载使用.\n\n\t如果您对我们的产品有任何一件和看法请联系 QQ： 330141633。</string>
+    <string name="selected">已选</string>
+    <string name="unselected">未选</string>
 </resources>

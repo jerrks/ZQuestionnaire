@@ -109,9 +109,20 @@ public class PieChartView extends PieChart implements OnChartValueSelectedListen
         l.setYOffset(0f);
 
         // entry label styling
-        setEntryLabelColor(Color.WHITE);
+        setEntryLabelColor(Color.BLACK);//Color.WHITE
         setEntryLabelTypeface(mTfRegular);
         setEntryLabelTextSize(12f);
+    }
+
+    /**
+     *
+     * @param color one of Color.*
+     * @param textSize
+     */
+    public void setLabelStyle(Color color, float textSize) {
+        setEntryLabelColor(Color.BLACK);
+        //setEntryLabelTypeface(mTfRegular);
+        setEntryLabelTextSize(textSize);
     }
 
     public static PieDataSet getDataSet(List<ChartItem> list, String chartLabel, Drawable icon) {

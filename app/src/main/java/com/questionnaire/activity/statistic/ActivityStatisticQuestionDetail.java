@@ -169,8 +169,7 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 			float rating = (float)(numStars * selNum / totel);
 			Log.d(TAG, "label=" + label + ", totel=" + totel + ", selNum=" + selNum + ", numStars=" + numStars + ", rating=" + rating);
 			float per = (100 * selNum) / totel;
-			optItem.setLabel(label + ": ");
-			optItem.setPercentage(Util.formateFloatStr(per) + "%");
+			optItem.setPercentage(label, per);
 			optItem.setRating(rating);
 			mResultLayout.addView(optItem);
 			list.add(new PieChartView.ChartItem(label, per));
@@ -179,7 +178,7 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 			if (!list.isEmpty()) {
 				mPieChart.setVisibility(View.VISIBLE);
 				mPieChart.setPieDataSet(list, mSubject.getTypeString());
-				mPieChart.setCenterText(getString(R.string.statistic_detail));
+
 			}
 		}
 	}
