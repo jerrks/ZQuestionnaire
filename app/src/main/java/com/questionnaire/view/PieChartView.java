@@ -24,6 +24,8 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.questionnaire.R;
+import com.questionnaire.content.ChartItem;
+import com.questionnaire.utils.MChartUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +126,7 @@ public class PieChartView extends PieChart implements OnChartValueSelectedListen
         // the chart.
         for (int i = 0; i < list.size() ; i++) {
             ChartItem item = list.get(i);
-            entries.add(new PieEntry(item.value, item.label, icon));
+            entries.add(new PieEntry(item.getPercentage(), item.label, icon));
         }
         return new PieDataSet(entries, chartLabel);
     }
@@ -143,28 +145,8 @@ public class PieChartView extends PieChart implements OnChartValueSelectedListen
         dataSet.setSelectionShift(5f);
 
         // add a lot of colors
-
-        ArrayList<Integer> colors = new ArrayList<Integer>();
-
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-
-        colors.add(ColorTemplate.getHoloBlue());
-
-        dataSet.setColors(colors);
-        //dataSet.setSelectionShift(0f);
+        dataSet.setColors(MChartUtil.getChartColors());
+        dataSet.setSelectionShift(0f);
 
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter());
@@ -204,24 +186,5 @@ public class PieChartView extends PieChart implements OnChartValueSelectedListen
     @Override
     public void onNothingSelected() {
         Log.i(TAG, "nothing selected");
-    }
-
-    public static class ChartItem {
-        public String label;//标签
-        public float value;//百分比
-        public ChartItem() {
-        }
-        public ChartItem(String label, float value) {
-            this.label = label;
-            this.value = value;
-        }
-
-        @java.lang.Override
-        public java.lang.String toString() {
-            return "ChartItem{" +
-                    "label=" + label +
-                    ", value=" + value +
-                    '}';
-        }
     }
 }
