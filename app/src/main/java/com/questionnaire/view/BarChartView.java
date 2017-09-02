@@ -80,12 +80,14 @@ public class BarChartView extends BarChart implements OnChartValueSelectedListen
         leftAxis.setTypeface(mTfLight);
         leftAxis.setLabelCount(5, false);
         leftAxis.setSpaceTop(15f);
+        leftAxis.setAxisMaximum(100);
         leftAxis.setValueFormatter(custom);
 
         YAxis rightAxis = getAxisRight();
         rightAxis.setTypeface(mTfLight);
         rightAxis.setLabelCount(5, false);
         rightAxis.setSpaceTop(15f);
+        rightAxis.setAxisMaximum(100);
         rightAxis.setValueFormatter(custom);
 
         Legend l = getLegend();
