@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.questionnaire.Conf;
 import com.questionnaire.R;
@@ -161,11 +162,26 @@ public class QuestManager {
 			return "answers is null";
 		StringBuffer info = new StringBuffer();
 		int totel = list.size();
+		Collections.sort(resoultList, new MyResultSort());//比例降序
 		for (Entry<String, Integer> entry : resoultList) {
 			float pers = (float)100 * entry.getValue() / totel;
 			info.append(entry.getKey() + ": " + Util.formateFloatStr(pers, "#0.0") + "%,  ");
 		}
 		return info.toString();
+	}
+
+	class MyResultSort implements Comparator<Entry<String, Integer>> {
+		//返回1表示要交换位置，0和-1不交换位置
+		@Override
+		public int compare(Entry<String, Integer> e1, Entry<String, Integer> e2) {
+			if (e1.getValue() == e2.getValue()) {
+				return 0;//两个不交换位置
+			}
+			if (e1.getValue() < e2.getValue()) {
+				return 1;//第一个比第二个大，返回1交换位置  升序
+			}
+			return -1; //第一个比第二个小， 返回-1，不交换位置， 降序
+		}
 	}
 	
 	public String parseAnswerChoicesDetail(Subject subject, List<Answer> list) {

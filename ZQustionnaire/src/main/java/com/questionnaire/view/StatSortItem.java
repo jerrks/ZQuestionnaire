@@ -45,11 +45,17 @@ public class StatSortItem extends LinearLayout {
 	}
 	
 	/**
-	 * @param labels the labels to set
+	 * @param color the labels to set
 	 */
 	public void setTextColor(int color) {
 		for (int i = 0; i < labels.length; i++) {
 			mLabel[i].setTextColor(color);
+		}
+	}
+
+	public void setTextSize(int textSize) {
+		for (int i = 0; i < labels.length; i++) {
+			mLabel[i].setTextSize(textSize);
 		}
 	}
 }

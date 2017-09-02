@@ -66,7 +66,7 @@ public class AdapterPaperDoing extends AbsListAdapter<Subject>
             if (a == null)
                 continue;
             if (!a.isDone()){
-                mListView.smoothScrollToPosition(mAnswerList.indexOf(a));
+                mListView.smoothScrollToPosition(mAnswerList.indexOf(a) + 1);//s上面有header
                 Conf.displayToast(getContext(), "问卷调查还未完成，请继续完成问卷！");
                 return false;
             }

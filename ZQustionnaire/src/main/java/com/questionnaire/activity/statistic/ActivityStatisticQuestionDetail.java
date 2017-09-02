@@ -1,18 +1,23 @@
 package com.questionnaire.activity.statistic;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,9 +35,10 @@ import com.questionnaire.db.SubjectAnswerPairs;
 import com.questionnaire.utils.QuestManager;
 import com.questionnaire.utils.Util;
 import com.questionnaire.view.BarChartView;
-import com.questionnaire.view.MRatingBar;
 import com.questionnaire.view.PieChartView;
 import com.questionnaire.view.StatSortItem;
+
+import static com.questionnaire.QuestApp.getContext;
 
 public class ActivityStatisticQuestionDetail extends ActivityBase implements
 		OnItemClickListener, OnClickListener {
@@ -51,13 +57,6 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 	PieChartView mPieChart;
 	BarChartView mBarChart;
 
-	private final int[] mMultiOpts = { R.id.choice_multiple_a,
-			R.id.choice_multiple_b, R.id.choice_multiple_c,
-			R.id.choice_multiple_d, R.id.choice_multiple_e,
-			R.id.choice_multiple_f, R.id.choice_multiple_g };
-
-	private final int[] mSingleOpts = { R.id.choice_sigle_a,
-			R.id.choice_sigle_b, R.id.choice_sigle_c, R.id.choice_sigle_d };
 	private Button mBack;
 
 	@Override
@@ -73,7 +72,6 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 	void initRes() {
 		mTopic = (TextView) findViewById(R.id.topic);
 		mResultInfo = (TextView) findViewById(R.id.result_info);
-		mResultInfo.setVisibility(View.GONE);
 		mAnswerListView = (ListView) findViewById(R.id.answers_list);
 		mTitle = (TextView) findViewById(R.id.title_center);
 		mResultLayout  = (LinearLayout) findViewById(R.id.result_layout);
@@ -82,7 +80,6 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 		mBack = (Button) findViewById(R.id.title_left);
 		mBack.setVisibility(View.VISIBLE);
 		mBack.setOnClickListener(this);
-		mResultLayout.setOnClickListener(this);
 	}
 	
 	void initData() {
@@ -106,13 +103,14 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 	void dispatch() {
 		switch (mSubject.getType()) {
 		case Subject.TYPE_CHOICE_SINGLE://单选题
-			initSingleChoice();
-			break;
 		case Subject.TYPE_CHOICE_MUTILPE://多选题
-			initMultiChoice();
+			initChoicesOptionsForSubject();
+			drawCharts();
+			setResultInfo();
 			break;
 		case Subject.TYPE_SORT://排序题
-			initSortResult();
+            initChoicesOptionsForSubject();
+			setSortInfo();
 			break;
 		case Subject.TYPE_ANSWER://问答题
 			initAnswerList();
@@ -123,70 +121,70 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 		}
 	}
 
-	void initSingleChoice() {
-		View view = findViewById(R.id.detail_singlechoice);
-		view.setVisibility(View.VISIBLE);
-		setOptionsAndResult(view, mSingleOpts);
-		setResultInfo();
-		List<ChartItem> list = getChoicePercentage(mAnswers, mSubject.getOptLabels());
-		drawPieChart(list);//饼状图
-		//drawRatingBar(list);//加星百分比图
-	}
+	void initChoicesOptionsForSubject(){
+        Subject data = mSubject;
+        String[] options = data.getOptions();
+        ViewGroup container = (ViewGroup) findViewById(R.id.subject_detail_options_container);
+        View child;
+        int c;
 
-	void initMultiChoice() {
-		View view = findViewById(R.id.detail_multichoice);
-		view.setVisibility(View.VISIBLE);
-		setOptionsAndResult(view, mMultiOpts);
-		setResultInfo();
-		List<ChartItem> list = getChoicePercentage(mAnswers, mSubject.getOptLabels());
-		drawBarChart(list);//柱状图
-		//drawRatingBar(list);//加星百分比图
-	}
+        TextView tv;
+        ImageView iv;
+        Drawable icon = ContextCompat.getDrawable(this,
+                data.getType()==Subject.TYPE_CHOICE_SINGLE ? R.drawable.ic_choice_unselect : R.drawable.ic_mutil_choice_normal);
+        String[] labels = getResources().getStringArray(R.array.subject_label);
+        String value;
 
-	void setOptionsAndResult(View view, int[] optRes) {
-		view.findViewById(R.id.choice_title).setVisibility(View.GONE);
-		String[] labels = getResources().getStringArray(R.array.subject_label);
-		String[] options = mSubject.getOptions();
-		for (int i = 0; i < optRes.length; i++) {
-			CompoundButton btn = (CompoundButton) view.findViewById(optRes[i]);
-			String opt = options[i];
-			if(TextUtils.isEmpty(opt)) {
-				btn.setVisibility(View.GONE);
-				continue;
-			}else{
-				btn.setVisibility(View.VISIBLE);
-				btn.setEnabled(false);
-				String text = formatOption(labels[i], options[i]);
-				btn.setText(text);
-			}
-		}
-		
-	}
+        for (int i = 0; i < options.length; i++) {
+            c = container.getChildCount();
+            if(c>i){
+                child = container.getChildAt(i);
+            }else{
+                child = LayoutInflater.from(container.getContext()).inflate(R.layout.subject_option_item_view,null,false);
+                container.addView(child);
+            }
+            if (TextUtils.isEmpty(options[i])){
+                child.setVisibility(View.GONE);
+                continue;
+            }
 
-	/**
-	 * 加星百分比图
-	 * @param list
-	 */
-	void drawRatingBar(List<ChartItem> list) {
-		for (ChartItem entry : list) {
-			MRatingBar optItem = new MRatingBar(this);
-			int numStars = optItem.getNumStars();//星图总星星数量
-			int totel = mAnswers.size();//答题者总人数
-			float selNum = entry.selNum;
-			String label = entry.label;
-			if(totel <= 0) totel = numStars;
-			float rating = (float)(numStars * selNum / totel);
-			Log.d(TAG, "label=" + label + ", totel=" + totel + ", selNum=" + selNum + ", numStars=" + numStars + ", rating=" + rating);
-			float per = (100 * selNum) / totel;
-			optItem.setLabel(label + ": ");
-			optItem.setPercentage(Util.formateFloatStr(per) + "%");
-			optItem.setRating(rating);
-			mResultLayout.addView(optItem);
-		}
-	}
+            iv = (ImageView) child.findViewById(R.id.subject_option_icon);
+            iv.setImageDrawable(icon);
+
+            tv = (TextView) child.findViewById(R.id.subject_option_value);
+            value = String.format(
+                    getContext().getString(R.string.subject_value_fromat),
+                    labels[i],
+                    options[i]);
+            tv.setText(value);
+            child.setVisibility(View.VISIBLE);
+        }
+    }
 
 	public void setResultInfo() {
-		mResultInfo.setText(mManager.parseAnswerChoicesInfo(mAnswers, mSubject.getOptLabels()));
+		if (mSubject != null) {
+			mResultInfo.setVisibility(View.VISIBLE);
+			mResultInfo.setText(mManager.parseAnswerChoicesInfo(mAnswers, mSubject.getOptLabels()));
+		}
+	}
+
+	void drawCharts() {
+		if (mSubject == null) {
+			return;
+		}
+		int type = mSubject.getType();
+		switch (type) {
+			case Subject.TYPE_CHOICE_SINGLE://单选题
+				List<ChartItem> list = getChoicePercentage(mAnswers, mSubject.getOptLabels());
+				drawPieChart(list);//饼状图
+				break;
+			case Subject.TYPE_CHOICE_MUTILPE://多选题
+				List<ChartItem> list2 = getChoicePercentage(mAnswers, mSubject.getOptLabels());
+				drawBarChart(list2);
+				break;
+			default:
+				break;
+		}
 	}
 
 	/**
@@ -242,13 +240,7 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 		mAnswerListView.setAdapter(adapter);
 		mAnswerListView.setOnItemClickListener(this);
 	}
-	
-	void initSortResult() {
-		View view = findViewById(R.id.detail_multichoice);
-		view.setVisibility(View.VISIBLE);
-		setOptionsAndResult(view, mMultiOpts);
-		setSortInfo();
-	}
+
 	void setSortInfo() {
 		List<Map.Entry<String, Map<Integer, Integer>>> resultNum = mManager.parseSortSubResults(mAnswers, mSubject.getOptLabels());
 		int totel = mAnswers.size();
@@ -283,8 +275,10 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 		String per = Util.formateIntegerStr(100 * f);
 		if(per.length() < 4) {
 			per = "    " + per;
+		} else if (per.length() > 4) {
+			per = per.substring(0, 3);
 		}
-		return per  + "%"/*Util.formateIntegerStr(100 * f)*/;
+		return per  + "%";
 	}
 	
 	String formateWidth(String s) {

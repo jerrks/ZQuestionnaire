@@ -34,16 +34,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
+                <LinearLayout
+                    android:id="@+id/subject_detail_options_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="45dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"/>
 
-                <include
-                    android:id="@+id/detail_singlechoice"
-                    layout="@layout/adapter_item_view_choice"
-                    android:visibility="gone" />
-
-                <include
-                    android:id="@+id/detail_multichoice"
-                    layout="@layout/adapter_item_view_choice_multiple"
-                    android:visibility="gone" />
                 <com.questionnaire.view.PieChartView
                     android:id="@+id/pie_chart"
                     android:layout_width="match_parent"
@@ -63,7 +61,8 @@
                     android:id="@+id/result_info"
                     style="@style/style_subject_answer_text"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"/>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
