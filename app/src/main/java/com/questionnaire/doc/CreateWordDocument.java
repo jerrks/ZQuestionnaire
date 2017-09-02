@@ -35,6 +35,9 @@ public class CreateWordDocument implements ICreateDocument {
         try {
             File dir = new File(dirPath);
             if(!dir.exists()) dir.mkdirs();
+
+            createFileFromAssets(context,dirPath,"temp.doc","temp.doc");
+
             temp = new File(dir,"temp.doc");
 
             if(!temp.exists()) temp.createNewFile();
@@ -61,6 +64,7 @@ public class CreateWordDocument implements ICreateDocument {
                 writePager(context,range,page);
 
                 OutputStream os = new FileOutputStream(new File(dir,name + ".doc"));
+
                 doc.write(os); //把doc输出到输出流中
 
                 is.close();
@@ -69,6 +73,8 @@ public class CreateWordDocument implements ICreateDocument {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }catch (Exception e){
+            e.printStackTrace();
         }finally {
             // clear temp doc document
             if(temp!=null && temp.exists()) temp.delete();
@@ -76,13 +82,13 @@ public class CreateWordDocument implements ICreateDocument {
         return true;
     }
 
-    void writePager(Context context,Range r,Paper m){
-        writeData(r, null,m.getName(),"\n\n"); // pager title
+    void writePager(Context context,Range r,Paper m) throws Exception{
+        writeData(r, null,m.getName(),"\r\r"); // pager title
         writeData(r, context.getString(R.string.paper_author,""),m.getAuthor(),"\t\t\t"); // author name
         writeData(r, context.getString(R.string.paper_create_time,""),
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(m.getDate())).toString(),"\n\n"); // create date
-        writeData(r, context.getString(R.string.paper_description,""),m.getDescription(),"\n\n"); // paper descriptions
-        writeData(r, context.getString(R.string.paper_marks,""),m.getMarkes(),"\n"); // markes
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(m.getDate())).toString(),"\r\r"); // create date
+        writeData(r, context.getString(R.string.paper_description,""),m.getDescription(),"\r\r"); // paper descriptions
+        writeData(r, context.getString(R.string.paper_marks,""),m.getMarkes(),"\r"); // markes
 
         List<Subject> subjects = Dao.getDaoSubject().getAll(m.getId());
         if(subjects==null && subjects.isEmpty()) return;
@@ -94,9 +100,9 @@ public class CreateWordDocument implements ICreateDocument {
         }
     }
 
-    void writeSubject(int index,Subject m,Range r){
+    void writeSubject(int index,Subject m,Range r) throws Exception{
 
-        writeData(r,"\n"+index+". ",m.getTopic(),"\n"); // write subject name
+        writeData(r,"\r"+index+". ",m.getTopic(),"\r"); // write subject name
 
         String[] options = m.getOptions();      // write subject options
         if(options==null || options.length<1) return;
@@ -117,16 +123,34 @@ public class CreateWordDocument implements ICreateDocument {
                 break;
         }
         for(String op : options){
-            writeData(r,String.format(label,OPTION_LABELS[index]),op,"\n");
+            writeData(r,String.format(label,OPTION_LABELS[index]),op,"\r");
             index ++;
         }
     }
 
-    void writeData(Range r,String pref,String value,String end){
+    void writeData(Range r,String pref,String value,String end) throws Exception{
         if(!TextUtils.isEmpty(value)){
-            if(!TextUtils.isEmpty(pref)) r.insertAfter(pref);
-            r.insertAfter(value);
-            if(!TextUtils.isEmpty(end)) r.insertAfter(end);
+            if(!TextUtils.isEmpty(pref)) r.insertAfter(new String(pref.getBytes(),"utf-8"));
+            r.insertAfter(new String(value.getBytes(),"utf-8"));
+            if(!TextUtils.isEmpty(end)) r.insertAfter(new String(end.getBytes(),"utf-8"));
+        }
+    }
+
+    void createFileFromAssets(Context context,String dir, String name,String assetsFileName){
+        try{
+            InputStream is = context.getAssets().open(assetsFileName);
+            File f = new File(dir,name);
+            OutputStream os = new FileOutputStream(f);
+            byte[] buff = new byte[1024];
+            int count;
+            while ((count = is.read(buff)) > 0){
+                os.write(buff,0,count);
+            }
+            is.close();
+            os.flush();
+            os.close();
+        }catch (Throwable e){
+            e.printStackTrace();
         }
     }
 }

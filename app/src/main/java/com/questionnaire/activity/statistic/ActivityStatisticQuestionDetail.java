@@ -1,6 +1,7 @@
 package com.questionnaire.activity.statistic;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -30,12 +31,13 @@ import com.questionnaire.db.SubjectAnswerPairs;
 import com.questionnaire.utils.QuestManager;
 import com.questionnaire.utils.Util;
 import com.questionnaire.view.MRatingBar;
+import com.questionnaire.view.PieChartView;
 import com.questionnaire.view.StatSortItem;
 
 public class ActivityStatisticQuestionDetail extends ActivityBase implements
 		OnItemClickListener, OnClickListener {
 
-	private static final String TAG = "ActivityStatisticQuestionDetail";
+	private static final String TAG = "StatisticQuestionDetail";
 	private ListView mAnswerListView = null;
 	private SubjectAnswerPairs mSubjectAnswerPairs = null;
 	private Subject mSubject = null;
@@ -46,6 +48,7 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 	TextView mTitle = null;
 	
 	LinearLayout mResultLayout;
+	PieChartView mPieChart;
 
 	private final int[] mMultiOpts = { R.id.choice_multiple_a,
 			R.id.choice_multiple_b, R.id.choice_multiple_c,
@@ -73,6 +76,7 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 		mAnswerListView = (ListView) findViewById(R.id.answers_list);
 		mTitle = (TextView) findViewById(R.id.title_center);
 		mResultLayout  = (LinearLayout) findViewById(R.id.result_layout);
+		mPieChart = (PieChartView) findViewById(R.id.pie_chart);
 		mBack = (Button) findViewById(R.id.title_left);
 		mBack.setVisibility(View.VISIBLE);
 		mBack.setOnClickListener(this);
@@ -99,16 +103,16 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 
 	void dispatch() {
 		switch (mSubject.getType()) {
-		case Subject.TYPE_CHOICE_SINGLE:
+		case Subject.TYPE_CHOICE_SINGLE://单选题
 			initSingleChoice();
 			break;
-		case Subject.TYPE_CHOICE_MUTILPE:
+		case Subject.TYPE_CHOICE_MUTILPE://多选题
 			initMultiChoice();
 			break;
-		case Subject.TYPE_SORT:
+		case Subject.TYPE_SORT://排序题
 			initSortResult();
 			break;
-		case Subject.TYPE_ANSWER:
+		case Subject.TYPE_ANSWER://问答题
 			initAnswerList();
 			break;
 
@@ -121,14 +125,14 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 		View view = findViewById(R.id.detail_singlechoice);
 		view.setVisibility(View.VISIBLE);
 		setOptionsAndResult(view, mSingleOpts);
-		setChoiceRating();
+		setChoiceRating(false, true);
 	}
 
 	void initMultiChoice() {
 		View view = findViewById(R.id.detail_multichoice);
 		view.setVisibility(View.VISIBLE);
 		setOptionsAndResult(view, mMultiOpts);
-		setChoiceRating();
+		setChoiceRating(true, false);
 	}
 
 	void setOptionsAndResult(View view, int[] optRes) {
@@ -151,23 +155,32 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 		
 	}
 	
-	void setChoiceRating() {
+	void setChoiceRating(boolean isMultiChoice, boolean isChart) {
 		mResultInfo.setText(mManager.parseAnswerChoicesInfo(mAnswers, mSubject.getOptLabels()));
 		List<Map.Entry<String, Integer>> resultNum = mManager.getChoiceResoultList(mAnswers, mSubject.getOptLabels());
-		int totel = mAnswers.size();
+		int totel = mAnswers.size();//答题者总人数
+		List<PieChartView.ChartItem> list = new ArrayList<PieChartView.ChartItem>();
 		for (Map.Entry<String, Integer> entry : resultNum) {
 			MRatingBar optItem = new MRatingBar(this);
 			int numStars = optItem.getNumStars();
 			float selNum = entry.getValue();
-			String label = entry.getKey() + ": ";
+			String label = entry.getKey();
 			if(totel <= 0) totel = numStars;
 			float rating = (float)(numStars * selNum / totel);
-			Log.d(TAG, "label=" + label + ": totel=" + totel + ": selNum=" + selNum + ", numStars=" + numStars + ", rating=" + rating);
+			Log.d(TAG, "label=" + label + ", totel=" + totel + ", selNum=" + selNum + ", numStars=" + numStars + ", rating=" + rating);
 			float per = (100 * selNum) / totel;
-			optItem.setLabel(label);
+			optItem.setLabel(label + ": ");
 			optItem.setPercentage(Util.formateFloatStr(per) + "%");
 			optItem.setRating(rating);
 			mResultLayout.addView(optItem);
+			list.add(new PieChartView.ChartItem(label, per));
+		}
+		if (isChart) {
+			if (!list.isEmpty()) {
+				mPieChart.setVisibility(View.VISIBLE);
+				mPieChart.setPieDataSet(list, mSubject.getTypeString());
+				mPieChart.setCenterText(getString(R.string.statistic_detail));
+			}
 		}
 	}
 	

@@ -108,27 +108,38 @@ public class ActivityCreateDocument extends ActivityBase implements View.OnClick
 
         @Override
         public void run() {
+            boolean succeed = true;
             try{
                 if(list==null || list.isEmpty()) return;
                 for(Paper p : list){
                     if(p==null) continue;
-                    creator.onCreateDocument(getBaseContext(),dir,p.getId());
+                    if(succeed && !creator.onCreateDocument(getBaseContext(),dir,p.getId())){
+                        succeed = false;
+                    }
                     Thread.sleep(10);
                 }
             }catch (Throwable e){
                 e.printStackTrace();
             }finally {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(progressBar!=null && progressBar.isShowing()) progressBar.dismiss();
-                        progressBar = null;
-                        Toast.makeText(getBaseContext(),"文档已导出并保存到"+dir,Toast.LENGTH_LONG).show();
-                        list.clear();
-                        list = null;
-                        creator = null;
-                    }
-                });
+                runOnUiThread(new CreateFinishCallback(succeed));
+            }
+        }
+
+        class CreateFinishCallback implements Runnable{
+            boolean succeed;
+
+            CreateFinishCallback(boolean succeed){
+                this.succeed = succeed;
+            }
+            @Override
+            public void run() {
+                if(progressBar!=null && progressBar.isShowing()) progressBar.dismiss();
+                progressBar = null;
+                if(succeed) Toast.makeText(getBaseContext(),"文档已导出并保存到"+dir,Toast.LENGTH_LONG).show();
+                else Toast.makeText(getBaseContext(),"文档导出失败\n ["+dir+"]",Toast.LENGTH_LONG).show();
+                list.clear();
+                list = null;
+                creator = null;
             }
         }
     }
