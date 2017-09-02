@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_layout_theme"
+    android:orientation="vertical">
+
+    <include
+        android:id="@id/title"
+        layout="@layout/title_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dip" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/subject_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip"
+                android:background="@drawable/input_text_bg"
+                android:ems="10"
+                android:hint="@string/hit_subject_name"
+                android:maxLength="80"
+                android:minHeight="40dip"
+                android:textSize="12dip">
+
+                <requestFocus />
+            </EditText>
+
+            <LinearLayout
+                android:id="@+id/subject_options_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_min"
+                android:orientation="vertical">
+
+                <com.questionnaire.view.SubjectOptionInputView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp" />
+
+                <com.questionnaire.view.SubjectOptionInputView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp" />
+
+                <com.questionnaire.view.SubjectOptionInputView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp" />
+
+                <com.questionnaire.view.SubjectOptionInputView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp" />
+            </LinearLayout>
+
+            <!-- 增加，减少答案选项 -->
+            <LinearLayout
+                android:id="@+id/subject_option_control"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/subject_add_option"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/floralwhite"
+                    android:layout_margin="5dip"
+                    android:gravity="center"
+                    android:text="增加答案"
+                    android:textColor="#1a191e"
+                    android:minHeight="40dip"
+                    android:textSize="14dip"/>
+
+                <TextView
+                    android:id="@+id/subject_delete_option"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/floralwhite"
+                    android:layout_margin="5dip"
+                    android:gravity="center"
+                    android:textColor="#1a191e"
+                    android:text="减少答案"
+                    android:minHeight="40dip"
+                    android:textSize="14dip"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip"
+                android:gravity="left|center_vertical"
+                android:textColor="#474747"
+                android:text="温馨提示：多选题最少3个选项，最多7个选项；单选题最少2个选项，最多5个选项；排序题最少4个选项，最多7个选项！"
+                android:minHeight="40dip"
+                android:textSize="12dip"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -87,28 +87,32 @@ public class ActivityDoingPaper extends ActivityBase
 		sp.setOnItemSelectedListener(this);
 		
 		root.findViewById(R.id.bt_cmplete).setOnClickListener(this);
-		mDialog = new Dialog(this,R.style.dialog);
-		mDialog.setOnCancelListener(new OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				long id = Dao.getDaoTester().insert(mTester);
-				if(id >-1){
-					mAdapter.setTesterId(id);
-					mDialog.cancel();
-					initListHeader();
-				}else{
-					Conf.displayToast(getBaseContext(), 
-							R.string.tip_save_subject_failed_retry);
+
+		if(mDialog==null){
+			mDialog = new Dialog(this,R.style.dialog);
+			mDialog.setOnCancelListener(new OnCancelListener() {
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					long id = Dao.getDaoTester().insert(mTester);
+					if(id >-1){
+						mAdapter.setTesterId(id);
+						mDialog.cancel();
+						initListHeader();
+					}else{
+						Conf.displayToast(getBaseContext(),
+								R.string.tip_save_subject_failed_retry);
+					}
 				}
-			}
-		});
-		mDialog.setContentView(root);
-		mDialog.show();
+			});
+			mDialog.setCancelable(false);
+			mDialog.setContentView(root);
+		}
+		if(!mDialog.isShowing()) mDialog.show();
 	}
 
 	private void initListView(){
 		mListView = (ListView) findViewById(R.id.paper_list_view);
-		mAdapter = new AdapterPaperDoing(this,mPaper.getId());
+		mAdapter = new AdapterPaperDoing(mListView,mPaper.getId());
 		View root = LayoutInflater.from(this)
 				.inflate(R.layout.layout_personal_information_header, null,false);
 		mHeader = root.findViewById(R.id.header);
@@ -219,8 +223,6 @@ public class ActivityDoingPaper extends ActivityBase
 				Conf.displayToast(this, 
 					R.string.tip_thanks);
 				finish();
-			}else{
-				Conf.displayToast(this, "doning...");
 			}
 			break;
 		case R.id.title_left:

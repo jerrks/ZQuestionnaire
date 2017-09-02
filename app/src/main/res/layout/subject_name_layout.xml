@@ -14,6 +14,8 @@
 	        android:layout_alignParentLeft="true"
 	        android:layout_alignParentTop="true"
 	        android:layout_centerVertical="true"
+			android:paddingLeft="5dp"
+			android:paddingRight="5dp"
 	        android:layout_toLeftOf="@+id/choice_edit_layout"
 	        android:textSize="@dimen/subject_title_text_size"
 	        android:gravity="left|center"/>
@@ -22,20 +24,25 @@
 		    android:id="@id/choice_edit_layout"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
+			android:minHeight="@dimen/layout_title_heigth"
 		    android:layout_alignParentRight="true"
 		    android:layout_alignParentTop="true"
 		    android:orientation="horizontal"
 		    android:visibility="visible">
 		    <ImageView
 	            android:id="@+id/choice_edit"
-	            android:layout_width="wrap_content"
-	            android:layout_height="@dimen/layout_title_heigth"
-	            android:src="@android:drawable/ic_menu_edit"/>
-	        <ImageView
-	            android:id="@+id/choice_delete"
-	            android:layout_width="wrap_content"
-	            android:layout_height="@dimen/layout_title_heigth"
-	            android:src="@android:drawable/ic_menu_delete" />
+	            android:layout_width="35dp"
+	            android:layout_height="35dp"
+				android:padding="5dp"
+				android:layout_gravity="center_vertical"
+	            android:src="@drawable/ic_edit"/>
+
+			<ImageView
+				android:id="@+id/choice_delete"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+				android:src="@drawable/ic_delete" />
 		</LinearLayout>
 		
 		<TextView
