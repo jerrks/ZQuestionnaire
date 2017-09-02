@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="1dip"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@id/choice_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/subject_name_layout"/>
+
+    <LinearLayout
+        android:id="@+id/choice_options_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        android:background="@color/white"
+        android:orientation="vertical"/>
+
+    <TextView
+        android:id="@+id/subject_option_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="35dp"
+        android:layout_marginRight="5dp"
+        android:textColor="@color/title_text_color"
+        android:textSize="@dimen/text_medium"
+        android:gravity="left|center_vertical"
+        android:visibility="gone"
+        android:text="选择项"/>
+
+</LinearLayout>

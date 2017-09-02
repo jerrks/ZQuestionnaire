@@ -75,6 +75,7 @@ public class CreateWordDocument implements ICreateDocument {
             return false;
         }catch (Exception e){
             e.printStackTrace();
+            return false;
         }finally {
             // clear temp doc document
             if(temp!=null && temp.exists()) temp.delete();

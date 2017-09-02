@@ -58,4 +58,14 @@
     <string-array name="media_long_click_option">
         <item >删除</item>
     </string-array>
+
+    <string-array name="subject_default_options">
+        <item >非常认可</item>
+        <item >认可</item>
+        <item >既不认可也不反对</item>
+        <item >不同意</item>
+        <item >很不同意</item>
+        <item >表示反对</item>
+        <item >坚决反对</item>
+    </string-array>
 </resources>
