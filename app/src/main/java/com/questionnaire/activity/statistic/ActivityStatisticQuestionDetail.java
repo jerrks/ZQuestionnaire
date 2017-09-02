@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -22,9 +21,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.questionnaire.Conf;
 import com.questionnaire.R;
 import com.questionnaire.activity.ActivityBase;
-import com.questionnaire.activity.chart.PieChartActivity;
 import com.questionnaire.adapter.AbsListAdapter;
 import com.questionnaire.adapter.AdapterQuestionAnswer;
+import com.questionnaire.content.ChartItem;
 import com.questionnaire.db.Answer;
 import com.questionnaire.db.Subject;
 import com.questionnaire.db.SubjectAnswerPairs;
@@ -125,14 +124,19 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 		View view = findViewById(R.id.detail_singlechoice);
 		view.setVisibility(View.VISIBLE);
 		setOptionsAndResult(view, mSingleOpts);
-		setChoiceRating(false, true);
+		setResultInfo();
+		List<ChartItem> list = getChoicePercentage(mAnswers, mSubject.getOptLabels());
+		drawPieChart(list);//饼状图
+		drawRatingBar(list);//加星百分比图
 	}
 
 	void initMultiChoice() {
 		View view = findViewById(R.id.detail_multichoice);
 		view.setVisibility(View.VISIBLE);
 		setOptionsAndResult(view, mMultiOpts);
-		setChoiceRating(true, false);
+		setResultInfo();
+		List<ChartItem> list = getChoicePercentage(mAnswers, mSubject.getOptLabels());
+		drawRatingBar(list);//加星百分比图
 	}
 
 	void setOptionsAndResult(View view, int[] optRes) {
@@ -154,17 +158,18 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 		}
 		
 	}
-	
-	void setChoiceRating(boolean isMultiChoice, boolean isChart) {
-		mResultInfo.setText(mManager.parseAnswerChoicesInfo(mAnswers, mSubject.getOptLabels()));
-		List<Map.Entry<String, Integer>> resultNum = mManager.getChoiceResoultList(mAnswers, mSubject.getOptLabels());
-		int totel = mAnswers.size();//答题者总人数
-		List<PieChartView.ChartItem> list = new ArrayList<PieChartView.ChartItem>();
-		for (Map.Entry<String, Integer> entry : resultNum) {
+
+	/**
+	 * 加星百分比图
+	 * @param list
+	 */
+	void drawRatingBar(List<ChartItem> list) {
+		for (ChartItem entry : list) {
 			MRatingBar optItem = new MRatingBar(this);
-			int numStars = optItem.getNumStars();
-			float selNum = entry.getValue();
-			String label = entry.getKey();
+			int numStars = optItem.getNumStars();//星图总星星数量
+			int totel = mAnswers.size();//答题者总人数
+			float selNum = entry.selNum;
+			String label = entry.label;
 			if(totel <= 0) totel = numStars;
 			float rating = (float)(numStars * selNum / totel);
 			Log.d(TAG, "label=" + label + ", totel=" + totel + ", selNum=" + selNum + ", numStars=" + numStars + ", rating=" + rating);
@@ -173,15 +178,38 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 			optItem.setPercentage(Util.formateFloatStr(per) + "%");
 			optItem.setRating(rating);
 			mResultLayout.addView(optItem);
-			list.add(new PieChartView.ChartItem(label, per));
 		}
-		if (isChart) {
-			if (!list.isEmpty()) {
-				mPieChart.setVisibility(View.VISIBLE);
-				mPieChart.setPieDataSet(list, mSubject.getTypeString());
-				mPieChart.setCenterText(getString(R.string.statistic_detail));
-			}
+	}
+
+	public void setResultInfo() {
+		mResultInfo.setText(mManager.parseAnswerChoicesInfo(mAnswers, mSubject.getOptLabels()));
+	}
+
+	/**
+	 * 绘制饼状图
+	 */
+	void drawPieChart(List<ChartItem> list) {
+		if (list != null && !list.isEmpty()) {
+			mPieChart.setVisibility(View.VISIBLE);
+			mPieChart.setPieDataSet(list, mSubject.getTypeString());
+			mPieChart.setCenterText(getString(R.string.statistic_detail));
+		} else {
+			mPieChart.setVisibility(View.GONE);
 		}
+	}
+
+	public List<ChartItem> getChoicePercentage(List<Answer> list, String[] labels) {
+		List<Map.Entry<String, Integer>> resultNum = mManager.getChoiceResoultList(list, labels);
+		int totel = mAnswers.size();//答题者总人数
+		List<ChartItem> chartItems = new ArrayList<ChartItem>();
+		for (Map.Entry<String, Integer> entry : resultNum) {
+			int selNum = entry.getValue();
+			String label = entry.getKey();
+			Log.i(TAG, "label=" + label + ", persons totel=" + totel + ", selNum=" + selNum);
+			float per = (100 * selNum) / totel;
+			chartItems.add(new ChartItem(label, totel, selNum, per));
+		}
+		return chartItems;
 	}
 	
 	String formatOption(String label, String option) {
@@ -258,6 +286,8 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 	public void onClick(View v) {
 		if(v == mBack) {
 			finish();
+		} else if (v == mResultLayout) {
+			startActivity(new Intent(this, PieChartActivity.class));
 		}
 	}
 }
