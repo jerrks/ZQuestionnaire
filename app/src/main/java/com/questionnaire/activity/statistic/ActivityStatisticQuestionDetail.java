@@ -29,6 +29,7 @@ import com.questionnaire.db.Subject;
 import com.questionnaire.db.SubjectAnswerPairs;
 import com.questionnaire.utils.QuestManager;
 import com.questionnaire.utils.Util;
+import com.questionnaire.view.BarChartView;
 import com.questionnaire.view.MRatingBar;
 import com.questionnaire.view.PieChartView;
 import com.questionnaire.view.StatSortItem;
@@ -48,6 +49,7 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 	
 	LinearLayout mResultLayout;
 	PieChartView mPieChart;
+	BarChartView mBarChart;
 
 	private final int[] mMultiOpts = { R.id.choice_multiple_a,
 			R.id.choice_multiple_b, R.id.choice_multiple_c,
@@ -76,6 +78,7 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 		mTitle = (TextView) findViewById(R.id.title_center);
 		mResultLayout  = (LinearLayout) findViewById(R.id.result_layout);
 		mPieChart = (PieChartView) findViewById(R.id.pie_chart);
+		mBarChart = (BarChartView) findViewById(R.id.bar_chart);
 		mBack = (Button) findViewById(R.id.title_left);
 		mBack.setVisibility(View.VISIBLE);
 		mBack.setOnClickListener(this);
@@ -127,7 +130,7 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 		setResultInfo();
 		List<ChartItem> list = getChoicePercentage(mAnswers, mSubject.getOptLabels());
 		drawPieChart(list);//饼状图
-		drawRatingBar(list);//加星百分比图
+		//drawRatingBar(list);//加星百分比图
 	}
 
 	void initMultiChoice() {
@@ -136,7 +139,8 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 		setOptionsAndResult(view, mMultiOpts);
 		setResultInfo();
 		List<ChartItem> list = getChoicePercentage(mAnswers, mSubject.getOptLabels());
-		drawRatingBar(list);//加星百分比图
+		drawBarChart(list);//柱状图
+		//drawRatingBar(list);//加星百分比图
 	}
 
 	void setOptionsAndResult(View view, int[] optRes) {
@@ -195,6 +199,19 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 			mPieChart.setCenterText(getString(R.string.statistic_detail));
 		} else {
 			mPieChart.setVisibility(View.GONE);
+		}
+	}
+
+	/**
+	 * 绘制饼状图
+	 */
+	void drawBarChart(List<ChartItem> list) {
+		if (list != null && !list.isEmpty()) {
+			mBarChart.setVisibility(View.VISIBLE);
+			String label = getString(R.string.statistic_detail) + "(" + mSubject.getTypeString() + ")";
+			mBarChart.setDataSet(list, label);
+		} else {
+			mBarChart.setVisibility(View.GONE);
 		}
 	}
 
@@ -286,8 +303,6 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 	public void onClick(View v) {
 		if(v == mBack) {
 			finish();
-		} else if (v == mResultLayout) {
-			startActivity(new Intent(this, PieChartActivity.class));
 		}
 	}
 }

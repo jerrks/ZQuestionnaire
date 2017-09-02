@@ -40,7 +40,7 @@ public class PieChartView extends PieChart implements OnChartValueSelectedListen
 
     protected Typeface mTfRegular;
     protected Typeface mTfLight;
-    static Drawable mStarIcon;
+    protected Drawable mStarIcon;
 
 
     public PieChartView(Context context) {
@@ -58,9 +58,9 @@ public class PieChartView extends PieChart implements OnChartValueSelectedListen
     @Override
     protected void init() {
         super.init();
-        mTfRegular = Typeface.createFromAsset(getContext().getAssets(), "OpenSans-Regular.ttf");
-        mTfLight = Typeface.createFromAsset(getContext().getAssets(), "OpenSans-Light.ttf");
-        //mStarIcon = getResources().getDrawable(R.drawable.star);
+        mTfRegular = MChartUtil.getTfRegular(getContext());
+        mTfLight = MChartUtil.getTfLight(getContext());
+        mStarIcon = getResources().getDrawable(R.drawable.star);
         initView();
     }
 
@@ -101,6 +101,15 @@ public class PieChartView extends PieChart implements OnChartValueSelectedListen
         animateY(1400, Easing.EasingOption.EaseInOutQuad);
         // mChart.spin(2000, 0, 360);
 
+        //setLegendValues();//可以不用设置
+
+        // entry label styling
+        setEntryLabelColor(Color.WHITE);
+        setEntryLabelTypeface(mTfRegular);
+        setEntryLabelTextSize(12f);
+    }
+
+    void setLegendValues() {
         Legend l = getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
@@ -109,30 +118,24 @@ public class PieChartView extends PieChart implements OnChartValueSelectedListen
         l.setXEntrySpace(7f);
         l.setYEntrySpace(0f);
         l.setYOffset(0f);
-
-        // entry label styling
-        setEntryLabelColor(Color.WHITE);
-        setEntryLabelTypeface(mTfRegular);
-        setEntryLabelTextSize(12f);
     }
 
-    public static PieDataSet getDataSet(List<ChartItem> list, String chartLabel, Drawable icon) {
-        if (list == null) {
-            return null;
-        }
+    public static PieDataSet generateDataSet(List<ChartItem> list, String chartLabel, Drawable icon) {
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
-
-        // NOTE: The order of the entries when being added to the entries array determines their position around the center of
-        // the chart.
-        for (int i = 0; i < list.size() ; i++) {
-            ChartItem item = list.get(i);
-            entries.add(new PieEntry(item.getPercentage(), item.label, icon));
+        if (list != null) {
+            // NOTE: The order of the entries when being added to the entries array determines their position around the center of
+            // the chart.
+            for (int i = 0; i < list.size() ; i++) {
+                ChartItem item = list.get(i);
+                entries.add(new PieEntry(item.getPercentage(), item.label, icon));
+            }
         }
+
         return new PieDataSet(entries, chartLabel);
     }
 
     public void setPieDataSet(List<ChartItem> list, String chartLabel) {
-        PieDataSet dataSet = getDataSet(list, chartLabel, mStarIcon);
+        PieDataSet dataSet = generateDataSet(list, chartLabel, mStarIcon);
         setPieDataSet(dataSet);
     }
 

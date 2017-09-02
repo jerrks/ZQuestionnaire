@@ -114,14 +114,14 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     protected Paint mInfoPaint;
 
     /**
-     * the object representing the labels on the x-axis
-     */
-    protected XAxis mXAxis;
-
-    /**
      * if true, touch gestures are enabled on the chart
      */
     protected boolean mTouchEnabled = true;
+
+    /**
+     * the object representing the labels on the x-axis
+     */
+    protected XAxis mXAxis;
 
     /**
      * the object responsible for representing the description text

@@ -1,10 +1,12 @@
 package com.questionnaire.utils;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import android.text.TextUtils;
 
 public class Util {
+	private static DecimalFormat sFormat;
 
 	public static String[] toStringArray(List<String> list) {
 		if (list == null)
@@ -18,14 +20,24 @@ public class Util {
 		return array;
 	}
 
+	public static DecimalFormat getDecimalFormat() {
+		if (sFormat == null) {
+			sFormat = new DecimalFormat("###,###,###,##0.0");
+		}
+		return sFormat;
+	}
+
 	public static String formateFloatStr(float f) {
-		java.text.DecimalFormat df = new java.text.DecimalFormat("#0.0");
-		return df.format(f);
+		try {
+			return getDecimalFormat().format(f);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return f + "";
 	}
 	
 	public static String formateIntegerStr(float f) {
-		java.text.DecimalFormat df = new java.text.DecimalFormat("#0");
-		return df.format(f);
+		return getDecimalFormat().format(f);
 	}
 	
 	/**

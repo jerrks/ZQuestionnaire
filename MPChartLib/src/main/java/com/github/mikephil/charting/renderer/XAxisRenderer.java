@@ -202,7 +202,8 @@ public class XAxisRenderer extends AxisRenderer {
 
             if (mViewPortHandler.isInBoundsX(x)) {
 
-                String label = mXAxis.getValueFormatter().getFormattedValue(mXAxis.mEntries[i / 2], mXAxis);
+                float entry = mXAxis.mEntries[i / 2];
+                String label = mXAxis.getValueFormatter().getFormattedValue(entry, mXAxis);
 
                 if (mXAxis.isAvoidFirstLastClippingEnabled()) {
 
