@@ -10,6 +10,7 @@ import com.questionnaire.activity.statistic.ActivityStatisticList;
 import com.questionnaire.db.Paper;
 import com.questionnaire.db.impl.Dao;
 import com.questionnaire.db.interfaces.IPaper;
+import com.questionnaire.utils.ToastUtils;
 
 import android.app.ActivityGroup;
 import android.app.AlertDialog.Builder;
@@ -44,6 +45,8 @@ public class ActivityMain extends ActivityGroup
 			TAB_PAPER_DONING,
 			TAB_PAPER_STATISTIC,
 			TAB_PAPER_ABOUT};
+
+	private long exitTime = 0;//两次点击退出应用
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,30 +63,25 @@ public class ActivityMain extends ActivityGroup
 		RadioButton create = (RadioButton) mGroupTab.findViewById(R.id.bt_paper_create);
 		create.setChecked(true);
 	}
-	
+
 	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		if(event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
-			onExitApplication();
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			exitApp();
 			return true;
-		}else{
-			return super.dispatchKeyEvent(event);
 		}
+		return super.onKeyDown(keyCode, event);
 	}
-	
-	void onExitApplication(){
-		Builder b = new Builder(this);
-		b.setTitle(R.string.tip_app)
-		.setMessage(R.string.tip_exit_application)
-		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-				finish();
-			}
-		})
-		.setNegativeButton(R.string.cancel, null)
-		.show();
+
+	//3秒内双击退出app
+	public void exitApp() {
+		if ((System.currentTimeMillis() - exitTime) > 3000) {
+			ToastUtils.show(getApplicationContext(), R.string.exit_app_click_again);
+			exitTime = System.currentTimeMillis();
+		} else {
+			finish();
+			System.exit(0);
+		}
 	}
 	
 	public void onClick(View v) {
