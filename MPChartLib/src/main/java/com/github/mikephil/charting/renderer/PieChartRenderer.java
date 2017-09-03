@@ -14,6 +14,7 @@ import android.os.Build;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.util.Log;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.charts.LineChart;
@@ -482,8 +483,10 @@ public class PieChartRenderer extends DataRenderer {
                         xValuePosition == PieDataSet.ValuePosition.INSIDE_SLICE;
                 final boolean drawYInside = drawValues &&
                         yValuePosition == PieDataSet.ValuePosition.INSIDE_SLICE;
-
-                if (drawXOutside || drawYOutside) {
+                //not need draw if value is 0
+                boolean valueZero = value == 0 || value == 0.0f;
+                if (valueZero) Log.v("hulk", "Dont draw entry: " + entry + " because of value= " + value);
+                if (!valueZero && (drawXOutside || drawYOutside)) {
 
                     final float valueLineLength1 = dataSet.getValueLinePart1Length();
                     final float valueLineLength2 = dataSet.getValueLinePart2Length();
@@ -539,7 +542,6 @@ public class PieChartRenderer extends DataRenderer {
                         c.drawLine(pt0x, pt0y, pt1x, pt1y, mValueLinePaint);
                         c.drawLine(pt1x, pt1y, pt2x, pt2y, mValueLinePaint);
                     }
-
                     // draw everything, depending on settings
                     if (drawXOutside && drawYOutside) {
 
@@ -567,7 +569,7 @@ public class PieChartRenderer extends DataRenderer {
                     }
                 }
 
-                if (drawXInside || drawYInside) {
+                if (!valueZero && (drawXInside || drawYInside)) {
                     // calculate the text position
                     float x = labelRadius * sliceXBase + center.x;
                     float y = labelRadius * sliceYBase + center.y;

@@ -83,4 +83,9 @@ public class PieEntry extends Entry {
         PieEntry e = new PieEntry(getY(), label, getData());
         return e;
     }
+
+    @Override
+    public String toString() {
+        return "label" + label + ": " + super.toString();
+    }
 }

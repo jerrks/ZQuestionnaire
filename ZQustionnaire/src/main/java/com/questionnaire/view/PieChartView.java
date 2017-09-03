@@ -101,10 +101,10 @@ public class PieChartView extends PieChart implements OnChartValueSelectedListen
         animateY(1400, Easing.EasingOption.EaseInOutQuad);
         // mChart.spin(2000, 0, 360);
 
-        //setLegendValues();//可以不用设置
+        setLegendValues();//可以不用设置
 
         // entry label styling
-        setEntryLabelColor(Color.WHITE);
+        setEntryLabelColor(Color.BLACK);//标签黑色
         setEntryLabelTypeface(mTfRegular);
         setEntryLabelTextSize(12f);
     }
@@ -128,9 +128,6 @@ public class PieChartView extends PieChart implements OnChartValueSelectedListen
             for (int i = 0; i < list.size() ; i++) {
                 ChartItem item = list.get(i);
                 float per = item.getPercentage();
-                if (per == 0 || per == 0.0f) {
-                    continue;//饼状图0.0%不显示,会出现文字重叠
-                }
                 entries.add(new PieEntry(per, item.label, icon));
             }
         }
@@ -155,10 +152,14 @@ public class PieChartView extends PieChart implements OnChartValueSelectedListen
         dataSet.setColors(MChartUtil.getChartColors());
         dataSet.setSelectionShift(0f);
 
+        //文字显示在里面还是外面，默认里面
+        //dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        //dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(10f);
-        data.setValueTextColor(Color.WHITE);
+        data.setValueTextColor(Color.WHITE);//百分比为白色
         data.setValueTypeface(mTfLight);
         setData(data);
 
