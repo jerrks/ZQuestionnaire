@@ -3,6 +3,7 @@ package com.questionnaire.activity.statistic;
 import java.util.List;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +28,7 @@ public class ActivityStatisticPaper extends ActivityBase
 	
 	private Paper mPaper  = null;
 	TextView mTitle = null;
+	TextView mRemarkTv = null;
 	Button mBack = null;
 	View mHeader;
 	PaperHeader mPaperHeader = null;
@@ -52,6 +54,7 @@ public class ActivityStatisticPaper extends ActivityBase
 		mTitle = (TextView) findViewById(R.id.title_center);
 		mPaperHeader = new PaperHeader(this); 
 		mListView = (ListView) findViewById(R.id.paper_list);
+		mRemarkTv = (TextView) findViewById(R.id.remark_tv);
 		mListView.setOnItemClickListener(this);
 		mListView.addHeaderView(mPaperHeader);
 
@@ -77,7 +80,11 @@ public class ActivityStatisticPaper extends ActivityBase
 	public void refreshList1() {
 		List<SubjectAnswerPairs> list = QuestManager.getmInstance().getSubjectAnswerPairs(mPaper.getId());
 		if(list != null && !list.isEmpty()) {
+			mRemarkTv.setVisibility(View.GONE);
 			mAdapter.updateDataSet(list);
+		} else {
+			mRemarkTv.setVisibility(View.VISIBLE);
+			mRemarkTv.setText(R.string.paper_answers_null);
 		}
 	}
 

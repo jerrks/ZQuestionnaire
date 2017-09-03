@@ -127,7 +127,11 @@ public class PieChartView extends PieChart implements OnChartValueSelectedListen
             // the chart.
             for (int i = 0; i < list.size() ; i++) {
                 ChartItem item = list.get(i);
-                entries.add(new PieEntry(item.getPercentage(), item.label, icon));
+                float per = item.getPercentage();
+                if (per == 0 || per == 0.0f) {
+                    continue;//饼状图0.0%不显示,会出现文字重叠
+                }
+                entries.add(new PieEntry(per, item.label, icon));
             }
         }
 
@@ -153,7 +157,7 @@ public class PieChartView extends PieChart implements OnChartValueSelectedListen
 
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(11f);
+        data.setValueTextSize(10f);
         data.setValueTextColor(Color.WHITE);
         data.setValueTypeface(mTfLight);
         setData(data);

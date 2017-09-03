@@ -59,7 +59,7 @@
                     android:orientation="vertical" >
                 <TextView
                     android:id="@+id/result_info"
-                    style="@style/style_subject_answer_text"
+                    style="@style/style_remark_text"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"/>

@@ -68,6 +68,12 @@
      	<item name="android:textSize">@dimen/text_medium</item>
      	<item name="android:padding">@dimen/padding_min</item>
     </style>
+
+	<style name="style_remark_text" parent="@style/style_text_base">
+		<item name="android:textColor">@color/gray</item>
+		<item name="android:textSize">@dimen/text_min</item>
+		<item name="android:padding">@dimen/padding_min</item>
+	</style>
     
     <style name="style_subject_item">
         <item name="android:layout_width">fill_parent</item>  
@@ -143,7 +149,7 @@
     
     <style name="style_listview">
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
      	<item name="android:fadingEdgeLength">0dp</item>
      	<item name="android:paddingLeft">3dip</item>
      	<item name="android:paddingRight">3dip</item>

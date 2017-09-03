@@ -111,6 +111,7 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 		case Subject.TYPE_SORT://排序题
             initChoicesOptionsForSubject();
 			setSortInfo();
+			setResultInfo();
 			break;
 		case Subject.TYPE_ANSWER://问答题
 			initAnswerList();
@@ -173,14 +174,13 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 			return;
 		}
 		int type = mSubject.getType();
+		List<ChartItem> list = getChoicePercentage(mAnswers, mSubject.getOptLabels());
 		switch (type) {
 			case Subject.TYPE_CHOICE_SINGLE://单选题
-				List<ChartItem> list = getChoicePercentage(mAnswers, mSubject.getOptLabels());
 				drawPieChart(list);//饼状图
 				break;
 			case Subject.TYPE_CHOICE_MUTILPE://多选题
-				List<ChartItem> list2 = getChoicePercentage(mAnswers, mSubject.getOptLabels());
-				drawBarChart(list2);
+				drawBarChart(list);
 				break;
 			default:
 				break;

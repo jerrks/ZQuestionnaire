@@ -90,13 +90,13 @@ public class ActivityDoingPaper extends ActivityBase
 
 		if(mDialog==null){
 			mDialog = new Dialog(this,R.style.dialog);
-			mDialog.setOnCancelListener(new OnCancelListener() {
+			mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
 				@Override
-				public void onCancel(DialogInterface dialog) {
+				public void onDismiss(DialogInterface dialog) {
+					//释放dialog时保存数据
 					long id = Dao.getDaoTester().insert(mTester);
 					if(id >-1){
 						mAdapter.setTesterId(id);
-						mDialog.cancel();
 						initListHeader();
 					}else{
 						Conf.displayToast(getBaseContext(),
@@ -104,7 +104,15 @@ public class ActivityDoingPaper extends ActivityBase
 					}
 				}
 			});
-			mDialog.setCancelable(false);
+			mDialog.setOnCancelListener(new OnCancelListener() {
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					//取消dialog. 关闭界面，不保存个人信息
+					finish();
+				}
+			});
+			//mDialog.setCancelable(false);
+			mDialog.setCanceledOnTouchOutside(false);
 			mDialog.setContentView(root);
 		}
 		if(!mDialog.isShowing()) mDialog.show();
@@ -204,7 +212,7 @@ public class ActivityDoingPaper extends ActivityBase
 		long id = Dao.getDaoTester().insert(mTester);
 		if(id >-1){
 			mAdapter.setTesterId(id);
-			mDialog.cancel();
+			mDialog.dismiss();
 			initListHeader();
 		}else{
 			Conf.displayToast(this, 
