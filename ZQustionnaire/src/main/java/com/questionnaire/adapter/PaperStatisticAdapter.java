@@ -6,7 +6,7 @@ import com.questionnaire.Conf;
 import com.questionnaire.R;
 import com.questionnaire.db.Subject;
 import com.questionnaire.db.SubjectAnswerPairs;
-import com.questionnaire.utils.QuestManager;
+import com.questionnaire.content.QuestManager;
 
 import android.content.Context;
 import android.util.Log;

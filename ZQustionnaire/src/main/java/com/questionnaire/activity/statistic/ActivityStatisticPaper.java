@@ -3,7 +3,6 @@ package com.questionnaire.activity.statistic;
 import java.util.List;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,7 +19,7 @@ import com.questionnaire.adapter.AbsListAdapter;
 import com.questionnaire.adapter.PaperStatisticAdapter;
 import com.questionnaire.db.Paper;
 import com.questionnaire.db.SubjectAnswerPairs;
-import com.questionnaire.utils.QuestManager;
+import com.questionnaire.content.QuestManager;
 import com.questionnaire.view.PaperHeader;
 
 public class ActivityStatisticPaper extends ActivityBase 

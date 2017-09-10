@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.questionnaire.R;
 import com.questionnaire.db.Answer;
-import com.questionnaire.utils.QuestManager;
+import com.questionnaire.content.QuestManager;
 
 import android.content.Context;
 import android.view.LayoutInflater;

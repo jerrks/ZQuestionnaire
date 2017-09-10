@@ -1,4 +1,4 @@
-package com.questionnaire.utils;
+package com.questionnaire.content;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.questionnaire.Conf;
 import com.questionnaire.R;
@@ -22,6 +21,7 @@ import com.questionnaire.db.impl.Dao;
 import com.questionnaire.db.impl.DaoAnswer;
 import com.questionnaire.db.impl.DaoPaper;
 import com.questionnaire.db.impl.DaoTester;
+import com.questionnaire.utils.Util;
 
 public class QuestManager {
 
@@ -112,7 +112,7 @@ public class QuestManager {
 		switch (subject.getType()) {
 		case Subject.TYPE_CHOICE_SINGLE:
 		case Subject.TYPE_CHOICE_MUTILPE:
-			info = parseAnswerChoicesInfo(list, subject.getOptLabels());
+			info = parseAnswerChoicesInfo(list, subject.getOptLabels(), null);
 			break;
 
 		case Subject.TYPE_SORT:
@@ -156,13 +156,16 @@ public class QuestManager {
 		return answers;
 	}
 
-	public String parseAnswerChoicesInfo(List<Answer> list, String[] labels) {
+	public String parseAnswerChoicesInfo(List<Answer> list, String[] labels,
+										 Comparator<Entry<String, Integer>> sortComparator) {
 		List<Map.Entry<String, Integer>> resoultList = getChoiceResoultList(list, labels);
 		if (resoultList == null || resoultList.isEmpty())
 			return "answers is null";
 		StringBuffer info = new StringBuffer();
 		int totel = list.size();
-		Collections.sort(resoultList, new MyResultSort());//比例降序
+		if (sortComparator != null) {
+			Collections.sort(resoultList, sortComparator);//比例升序/降序
+		}
 		for (Entry<String, Integer> entry : resoultList) {
 			float pers = (float)100 * entry.getValue() / totel;
 			info.append(entry.getKey() + ": " + Util.formateFloatStr(pers, "#0.0") + "%,  ");
@@ -170,20 +173,6 @@ public class QuestManager {
 		return info.toString();
 	}
 
-	class MyResultSort implements Comparator<Entry<String, Integer>> {
-		//返回1表示要交换位置，0和-1不交换位置
-		@Override
-		public int compare(Entry<String, Integer> e1, Entry<String, Integer> e2) {
-			if (e1.getValue() == e2.getValue()) {
-				return 0;//两个不交换位置
-			}
-			if (e1.getValue() < e2.getValue()) {
-				return 1;//第一个比第二个大，返回1交换位置  升序
-			}
-			return -1; //第一个比第二个小， 返回-1，不交换位置， 降序
-		}
-	}
-	
 	public String parseAnswerChoicesDetail(Subject subject, List<Answer> list) {
 		String detail = parseAnswers(subject, list);
 		return detail.replace(",  ", "\n");

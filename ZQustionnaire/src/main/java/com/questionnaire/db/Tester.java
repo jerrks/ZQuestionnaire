@@ -2,7 +2,7 @@ package com.questionnaire.db;
 
 import com.questionnaire.QuestApp;
 import com.questionnaire.R;
-import com.questionnaire.utils.QuestManager;
+import com.questionnaire.content.QuestManager;
 
 public class Tester extends Base{
 	private static final long serialVersionUID = 3318559450714226182L;

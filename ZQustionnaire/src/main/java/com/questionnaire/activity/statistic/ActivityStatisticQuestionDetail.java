@@ -1,6 +1,5 @@
 package com.questionnaire.activity.statistic;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -32,7 +31,8 @@ import com.questionnaire.content.ChartItem;
 import com.questionnaire.db.Answer;
 import com.questionnaire.db.Subject;
 import com.questionnaire.db.SubjectAnswerPairs;
-import com.questionnaire.utils.QuestManager;
+import com.questionnaire.content.QuestManager;
+import com.questionnaire.utils.DescendingComparator;
 import com.questionnaire.utils.Util;
 import com.questionnaire.view.BarChartView;
 import com.questionnaire.view.PieChartView;
@@ -165,7 +165,9 @@ public class ActivityStatisticQuestionDetail extends ActivityBase implements
 	public void setResultInfo() {
 		if (mSubject != null) {
 			mResultInfo.setVisibility(View.VISIBLE);
-			mResultInfo.setText(mManager.parseAnswerChoicesInfo(mAnswers, mSubject.getOptLabels()));
+			DescendingComparator cp = new DescendingComparator();
+			String resInfo = mManager.parseAnswerChoicesInfo(mAnswers, mSubject.getOptLabels(), cp);
+			mResultInfo.setText(resInfo);
 		}
 	}
 
